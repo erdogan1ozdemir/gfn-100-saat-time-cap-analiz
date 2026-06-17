@@ -16,8 +16,8 @@
   --heading:#222732;
   --green:#76b900; --green-deep:#3f6b00; --green-dim:#eef6dc; --green2:#3f6b00;
   --ink:#222936; --ink-2:#515d72; --ink-3:#7c8799;
-  --surface:#ffffff; --surface-2:#f6f8fc; --surface-3:#eaeef7; --bg:#f3f6fc; --card:#f1f3f8;
-  --line:#e4eaf4; --line-soft:#eef2f9;
+  --surface:#ffffff; --surface-2:#f6f8fc; --surface-3:#eaeef7; --bg:#e6e8ee; --card:#f4f6fb;
+  --line:#d9dfea; --line-soft:#e8edf5;
   --blue:#1d63d6; --blue-soft:#e9eff9; --purple:#7c4ddb;
   --neg:#d8463c; --neg2:#e8694a; --neg-dim:#fce9e7; --neu:#b07d12; --neu-dim:#fbf1d6; --pos:#2e9e4c; --pos-dim:#e6f5ec;
   --r1:#1d63d6; --r2:#7c4ddb; --r3:#5e9400;
@@ -82,7 +82,19 @@ img{max-width:100%}
 
 /* layout */
 .layout{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:254px 1fr;gap:28px;padding:24px 22px 56px;align-items:start}
-.sidenav{position:sticky;top:74px;align-self:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:13px;box-shadow:0 12px 34px rgba(20,28,45,.10),0 3px 8px rgba(20,28,45,.05);z-index:1}
+.sidenav{position:sticky;top:74px;align-self:start;height:calc(100vh - 92px);display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:0 12px 34px rgba(20,28,45,.10),0 3px 8px rgba(20,28,45,.05);z-index:1}
+.sidenav__head{padding:16px 16px 13px;border-bottom:1px solid var(--line)}
+.sidenav__badge{display:inline-block;font-family:var(--display);font-weight:800;font-size:.68rem;letter-spacing:.03em;color:#fff;background:var(--brand);padding:4px 10px;border-radius:7px}
+.sidenav__badge b{color:var(--accent)}
+.sidenav__ttl{font-family:var(--display);font-weight:800;font-size:.92rem;color:var(--heading);margin-top:9px;line-height:1.3}
+.sidenav__nav{flex:1;overflow-y:auto;padding:12px;min-height:0;scrollbar-width:thin}
+.sidenav__foot{padding:12px 16px 14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:2px;font-size:.7rem;color:var(--ink-3)}
+.sidenav__foot b{color:var(--accent-deep);font-weight:800}
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:9999;background:linear-gradient(90deg,var(--accent),var(--green));transition:width .1s ease}
+.back-to-top{position:fixed;right:20px;bottom:20px;z-index:70;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);color:var(--heading);font-size:1.15rem;cursor:pointer;box-shadow:var(--shadow-h);display:none;align-items:center;justify-content:center;transition:transform .15s,border-color .2s}
+.back-to-top:hover{transform:translateY(-2px);border-color:var(--accent)}
+.back-to-top.show{display:flex}
+@media(max-width:980px){.back-to-top{display:none!important}}
 .sidenav::before{content:"";position:absolute;inset:-3px;border-radius:calc(var(--r-lg) + 3px);background:conic-gradient(from var(--toc-ang,0deg),rgba(255,201,0,.7),rgba(118,185,0,.5),rgba(43,47,58,.35),rgba(255,201,0,.7));filter:blur(11px);opacity:.5;z-index:-1;animation:tocGlow 7s linear infinite}
 @property --toc-ang{syntax:"<angle>";initial-value:0deg;inherits:false}
 @keyframes tocGlow{to{--toc-ang:360deg}}
@@ -213,19 +225,20 @@ table.cmp tr:hover td{background:var(--blue-soft)}
 .qbtn{background:var(--surface);border:1px solid var(--line);color:var(--ink-2);font-size:.8rem;font-weight:700;padding:8px 15px;border-radius:9px;cursor:pointer;transition:all .15s}
 .qbtn:hover{color:var(--heading);border-color:var(--border2)}
 .qbtn.active{background:var(--brand);color:#fff;border-color:transparent}
-.qwall{columns:3;column-gap:18px}
-.quote{break-inside:avoid;margin-bottom:18px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;border-top:3px solid var(--ink-3);box-shadow:var(--shadow);transition:.18s}
+.qwall{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+.quote{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--border2);border-left:3px solid var(--ink-3);border-radius:12px;padding:18px;box-shadow:var(--shadow);transition:.18s}
 .quote:hover{transform:translateY(-2px);box-shadow:var(--shadow-h)}
-.quote.q-neg{border-top-color:var(--neg)} .quote.q-neu{border-top-color:var(--neu)} .quote.q-pos{border-top-color:var(--pos)}
+.quote.q-neg{border-left-color:var(--neg)} .quote.q-neu{border-left-color:var(--neu)} .quote.q-pos{border-left-color:var(--pos)}
 .quote .qt{font-size:.86rem;line-height:1.55;color:var(--text)}
-.quote .qmeta{display:flex;align-items:center;justify-content:space-between;margin-top:14px;font-size:.74rem;color:var(--ink-3)}
+.quote .qmeta{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:14px;font-size:.74rem;color:var(--ink-3)}
 .quote .qmeta .who{font-weight:700;color:var(--ink-2)}
 .quote .qsrc{font-size:.72rem;font-weight:700}
 .s-flag{display:inline-block;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:2px 7px;border-radius:5px;margin-bottom:10px}
 .f-neg{background:var(--neg-dim);color:#b23232} .f-neu{background:var(--neu-dim);color:#7a4d05} .f-pos{background:var(--pos-dim);color:#176535}
 
 /* x evidence cards */
-.xcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:11px;break-inside:avoid;box-shadow:var(--shadow);transition:.18s}
+.xgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+.xcard{background:var(--card);border:1px solid var(--border2);border-radius:13px;padding:16px 18px;display:flex;flex-direction:column;gap:11px;box-shadow:var(--shadow);transition:.18s}
 .xcard:hover{transform:translateY(-2px);box-shadow:var(--shadow-h)}
 .xcard.promise{border-color:#bfe3cc;background:linear-gradient(180deg,var(--pos-dim),var(--card))}
 .xcard.recent{border-color:#f1c4c0;background:linear-gradient(180deg,var(--neg-dim),var(--card))}
@@ -237,7 +250,7 @@ table.cmp tr:hover td{background:var(--blue-soft)}
 .xdate{margin-left:auto;font-size:.72rem;color:var(--ink-3);white-space:nowrap}
 .xbody{font-size:.85rem;line-height:1.55;color:var(--text)}
 .ximg{font-size:.78rem;color:var(--ink-2);font-style:italic;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
-.xstats{display:flex;gap:16px;font-size:.72rem;color:var(--ink-3);border-top:1px solid var(--line);padding-top:9px;align-items:center}
+.xstats{display:flex;gap:16px;font-size:.72rem;color:var(--ink-3);border-top:1px solid var(--line);padding-top:9px;align-items:center;margin-top:auto}
 .xstats b{color:var(--ink-2)}
 .xstats a{margin-left:auto;font-weight:700;color:var(--blue)}
 .xgrouplabel{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin:6px 0 2px;color:var(--ink-2)}
@@ -265,18 +278,19 @@ table.cmp tr:hover td{background:var(--blue-soft)}
 
 /* timeline */
 /* timeline: sol seritli kilometre tasi kartlari (nokta/cizgi yok) */
-.tl{position:relative;margin-top:4px;display:flex;flex-direction:column;gap:10px}
-.tlitem{position:relative;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--green);border-radius:5px 13px 13px 5px;padding:14px 18px 15px;box-shadow:var(--shadow);transition:transform .16s ease,box-shadow .16s,border-left-width .16s}
-.tlitem:hover{transform:translateX(3px);box-shadow:var(--shadow-h);border-left-width:8px}
-.tlitem.u{border-left-color:var(--neg);background:linear-gradient(90deg,var(--neg-dim),var(--card) 34%)}
-.tlitem.now{border-left-color:var(--neu);background:linear-gradient(90deg,var(--neu-dim),var(--card) 34%)}
+/* timeline: kompakt akis - tarih cipi ve baslik ayni satirda */
+.tl{display:flex;flex-direction:column;gap:8px}
+.tlitem{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 11px;background:var(--card);border:1px solid var(--border2);border-left:4px solid var(--green);border-radius:4px 11px 11px 4px;padding:11px 16px;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s}
+.tlitem:hover{transform:translateX(3px);box-shadow:var(--shadow-h)}
+.tlitem.u{border-left-color:var(--neg);background:linear-gradient(90deg,var(--neg-dim),var(--card) 28%)}
+.tlitem.now{border-left-color:var(--neu);background:linear-gradient(90deg,var(--neu-dim),var(--card) 28%)}
 .tlitem .node{display:none}
-.tlitem .dt{display:inline-flex;align-items:center;gap:7px;font-size:.69rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:#4e7d00;padding:4px 12px 4px 9px;border-radius:8px;line-height:1.25;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
-.tlitem .dt::before{content:"";width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.9);flex:none}
+.tlitem .dt{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:.66rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:#fff;background:#4e7d00;padding:3px 10px 3px 8px;border-radius:7px;line-height:1.3}
+.tlitem .dt::before{content:"";width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.9);flex:none}
 .tlitem.u .dt{background:#cf3b30} .tlitem.now .dt{background:#9a6a08}
-.tlitem .tx{font-size:.9rem;color:var(--heading);font-weight:750;margin-top:10px}
-.tlitem .tx small{display:block;color:var(--ink-2);font-weight:400;margin-top:5px;font-size:.84rem;line-height:1.55}
-.tlitem .tlsrc{font-size:.72rem;margin-top:8px}
+.tlitem .tx{flex:1 1 58%;min-width:210px;font-size:.86rem;color:var(--heading);font-weight:750;margin:0}
+.tlitem .tx small{display:block;color:var(--ink-2);font-weight:400;margin-top:4px;font-size:.81rem;line-height:1.5}
+.tlitem .tlsrc{flex-basis:100%;font-size:.71rem;margin-top:1px}
 
 /* actions */
 .act{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -326,6 +340,12 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
 .callout p{font-size:.86rem;color:var(--ink-2)}
 .callout p b{color:var(--heading)}
 
+/* term tooltip (R1/R2/R3 acıklamaları) */
+.term{border-bottom:1.5px dotted var(--accent-deep);cursor:help;font-weight:inherit}
+table.cmp thead th .term{border-bottom-color:var(--accent)}
+.termtip{position:fixed;z-index:9999;max-width:min(330px,92vw);background:var(--brand-deep);color:#fff;padding:10px 13px;border-radius:10px;font-size:.8rem;line-height:1.45;box-shadow:var(--shadow-h);opacity:0;pointer-events:none;transition:opacity .14s}
+.termtip.show{opacity:1}
+
 /* footer */
 .site-foot{max-width:var(--maxw);margin:0 auto;padding:8px 22px 50px;color:var(--ink-3);font-size:.79rem}
 .site-foot b{color:var(--ink-2)}
@@ -349,9 +369,8 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
   .layout{grid-template-columns:1fr;padding:16px 13px 50px}
   .sidenav{display:none}
   .toc-fab{display:block}
-  .kpis,.regstrip,.cost-grid{grid-template-columns:repeat(2,1fr)}
+  .kpis,.regstrip,.cost-grid,.qwall,.xgrid{grid-template-columns:repeat(2,1fr)}
   .grid2,.grid3,.cd,.act{grid-template-columns:1fr}
-  .qwall{columns:2}
   .hero{padding:30px 22px}
   .hero h1{font-size:1.78rem}
   .section{padding:22px 20px}
@@ -361,7 +380,7 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
   .brandmark .ttl small{display:none}
 }
 @media(max-width:600px){
-  .kpis,.regstrip,.cost-grid,.qwall{grid-template-columns:1fr;columns:1}
+  .kpis,.regstrip,.cost-grid,.qwall,.xgrid{grid-template-columns:1fr}
   .demrow{grid-template-columns:24px 1fr}.demrow .freqtag{grid-column:2}
   .comprow{grid-template-columns:1fr}
   .bar-row{grid-template-columns:118px 1fr}
@@ -370,6 +389,8 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
 <script>(function(){try{var t=localStorage.getItem('gfn-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 </head>
 <body>
+<div class="progress-bar" id="progressBar"></div>
+<button class="back-to-top" id="backToTop" type="button" aria-label="Başa dön">↑</button>
 
 <header class="appbar"><div class="appbar__in">
   <div class="brandmark">
@@ -387,7 +408,12 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
 
 <div class="layout">
   <aside class="sidenav">
-    <h4>Bölümler</h4>
+    <div class="sidenav__head">
+      <span class="sidenav__badge">GAME<b>+</b> · GFN</span>
+      <div class="sidenav__ttl">100 Saat Sosyal Dinleme Raporu</div>
+    </div>
+    <nav class="sidenav__nav">
+      <h4>Bölümler</h4>
       <a href="#ozet"><span class="n">·</span>Yönetici özeti</a>
       <a href="#zaman"><span class="n">01</span>Zaman çizelgesi</a>
       <a href="#metodoloji"><span class="n">02</span>Yöntem ve 3 rapor</a>
@@ -401,6 +427,11 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
       <a href="#sikayet"><span class="n">10</span>Şikayetler</a>
       <a href="#talepler"><span class="n">11</span>Aksiyon</a>
       <a href="#kaynaklar"><span class="n">12</span>Kaynaklar</a>
+    </nav>
+    <div class="sidenav__foot">
+      <span>Hazırlayan · <b>Inbound</b></span>
+      <span>Güncelleme 17 Haz 2026</span>
+    </div>
   </aside>
   <main>
 <!-- HERO -->
@@ -515,7 +546,7 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
   <div class="panel" style="margin-bottom:22px">
     <div class="tbl-wrap" style="border:none">
     <table class="cmp">
-      <thead><tr><th>Boyut</th><th><span class="tag-r tag-r1">R1</span> Algı Araştırması</th><th><span class="tag-r tag-r2">R2</span> Türkiye Araştırması</th><th><span class="tag-r tag-r3">R3</span> Compass</th></tr></thead>
+      <thead><tr><th>Boyut</th><th><span class="tag-r tag-r1">R1</span> <span class="term" data-term="AI 'derin araştırma' raporu (dosya: GeForce NOW Süre Sınırı Algı Araştırması). 15 gerçek kaynaktan derlendi: Technopat, DonanımHaber, Reddit r/veYakinEvren, ShiftDelete, YouTube. 185 yorum - en geniş örneklem; ama yüzdeleri AI üretimi olduğu için temkinli alındı.">Algı Araştırması</span></th><th><span class="tag-r tag-r2">R2</span> <span class="term" data-term="Küçük ama dürüst örneklem (dosya: GeForce NOW Türkiye Araştırması, 16 yorum). Her alıntı yoruma inen exact-text linkle doğrulanabilir; ağırlıklı haber yorumları.">Türkiye Araştırması</span></th><th><span class="tag-r tag-r3">R3</span> <span class="term" data-term="Compass tabanlı AI araştırması (~70-90 ifade). En güçlü içgörüler buradan: sözden dönüş ve giderek artan kısıtlama; birincil kaynaklar teyit edilmiş.">Compass</span></th></tr></thead>
       <tbody>
         <tr><td>Örneklem</td><td>185 yorum / 15 kaynak</td><td>16 yorum / 4 kaynak</td><td>~70–90 ifade / ~14 kaynak</td></tr>
         <tr><td>Negatif</td><td>%65,9</td><td>%87,5</td><td>~%70–75</td></tr>
@@ -523,8 +554,8 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
         <tr><td>Pozitif</td><td>%10,3</td><td>%6,25</td><td>~%10</td></tr>
         <tr><td>Erişebildiği mecralar</td><td>Technopat, DonanımHaber, Reddit, ShiftDelete, YouTube (iddia)</td><td>Yalnızca haber yorumları (ShiftDelete, Technopat, Webtekno, Şikayetvar)</td><td>Forumlar, haber yorumları, Şikayetvar, resmî kaynaklar</td></tr>
         <tr><td>Güçlü yanı</td><td>En zengin tema/frekans tabloları, rakip oranları</td><td>Dürüst; exact-text deep-link'li (yoruma indiren) alıntılar</td><td>En güçlü içgörü (sözünden dönme, giderek artan kısıtlama), ana kaynak doğrulaması</td></tr>
-        <tr><td>Zayıf yanı</td><td>Bazı sayı/URL şüpheli kesinlikte; doğrulanamadı</td><td>Çok küçük örneklem; rakip/tema çeşitliliği eksik</td><td>Orta örneklem; YouTube/X erişilemedi</td></tr>
-        <tr><td>Doğrulama (bu çalışma)</td><td><span class="vbadge v-part">Kısmi</span> kaynakları gerçek, sayıları temel alınmadı</td><td><span class="vbadge v-ok">Yüksek</span> alıntıları birebir doğrulandı</td><td><span class="vbadge v-ok">Yüksek</span> ana kaynakları teyit edildi</td></tr>
+        <tr><td>Zayıf yanı</td><td>Yüzdeler AI üretimi (virgüllü ve fazla kesin); oranlar temkinli okunmalı</td><td>Çok küçük örneklem; rakip/tema çeşitliliği eksik</td><td>Orta örneklem; YouTube/X erişilemedi</td></tr>
+        <tr><td>Doğrulama (bu çalışma)</td><td><span class="vbadge v-part">Kısmi</span> 15 kaynağın tümü gerçek URL; AI üretimi yüzdeler temkinli alındı</td><td><span class="vbadge v-ok">Yüksek</span> alıntıları birebir doğrulandı</td><td><span class="vbadge v-ok">Yüksek</span> ana kaynakları teyit edildi</td></tr>
       </tbody>
     </table>
     </div>
@@ -533,16 +564,16 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
   <div class="grid2">
     <div class="card">
       <h3>Örneklem boyutu farkı</h3>
-      <div class="ch-sub">Aynı konu, üç farklı sonuç. R1 185 yorum derken diğer ikisi 16-90'da erişim duvarına çarpmış; doğrulanamadığı için R1'in sayıları kesin kabul edilmedi.</div>
+      <div class="ch-sub">Aynı konu, üç farklı örneklem. R1 (AI derin araştırma) 185 yorumu 15 gerçek kaynaktan derlemiş; R2 ve R3 daha küçük ama elle doğrulanmış. R1'in yüzdeleri AI üretimi olduğu için tema düzeyinde kullanıldı.</div>
       <div class="bar-row"><div class="nm"><span class="tag-r tag-r2">R2</span> Türkiye<small>doğrulandı, küçük</small></div><div class="track"><div class="fill" style="width:9%;background:var(--r2)">16</div></div></div>
       <div class="bar-row"><div class="nm"><span class="tag-r tag-r3">R3</span> Compass<small>doğrulandı</small></div><div class="track"><div class="fill" style="width:43%;background:var(--r3)">~80</div></div></div>
-      <div class="bar-row"><div class="nm"><span class="tag-r tag-r1">R1</span> Algı<small>doğrulanamadı</small></div><div class="track"><div class="fill" style="width:100%;background:var(--r1)">185</div></div></div>
-      <div class="callout warn" style="margin-top:14px"><p>İki araştırma 16-90 yorumda takılmışken R1'in 185 yorum ve virgüllü yüzdeler vermesi <b>kendi içinde tutarsız</b>. Bu yüzden R1'in temaları kullanıldı, kesin sayıları kullanılmadı.</p></div>
+      <div class="bar-row"><div class="nm"><span class="tag-r tag-r1">R1</span> Algı<small>15 kaynak, AI %</small></div><div class="track"><div class="fill" style="width:100%;background:var(--r1)">185</div></div></div>
+      <div class="callout warn" style="margin-top:14px"><p>R1 büyük örneklemini 15 gerçek kaynaktan derliyor; ama virgüllü yüzdeleri (ör. %65,9) <b>AI üretimi</b>. Bu yüzden R1'in <b>tema ve kaynakları</b> kullanıldı, kesin yüzdeleri sayısal omurga olarak alınmadı.</p></div>
     </div>
 
     <div class="card">
       <h3>Birleştirme yöntemi</h3>
-      <div class="ch-sub">Doğrula ve birleştir: her bilgi gerçek bir kaynağa bağlandı, çalışmayan veya şüpheli linkler çıkarıldı.</div>
+      <div class="ch-sub">Üç rapor üç adımda birleştirildi: <b>1)</b> ortak bulgular karşılaştırıldı, çelişkiler işaretlendi. <b>2)</b> her iddia gerçek bir kaynağa bağlandı; çalışmayan veya şüpheli linkler çıkarıldı. <b>3)</b> sayısal omurga elle doğrulanan R3 ve R2'ye, tema ve çeşitlilik R1'e dayandırıldı; üstüne YouTube, X, Ekşi ve Reddit elle eklendi.</div>
       <div class="cd" style="grid-template-columns:1fr">
         <div class="col agree">
           <h4>✓ Doğrulananlar (yüksek güven)</h4>
@@ -560,7 +591,7 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
           <h4>⚠ Ayrışan / dikkatli kullanılan</h4>
           <ul>
             <li><b>Kesin yüzdeler:</b> R2'nin %87,5'i küçük örneklemden (16 yorum) gelen aykırı sonuç</li>
-            <li><b>R1'in Reddit kaynağı</b> (r/veYakinEvren) bulunamadı, doğrulanamadı</li>
+            <li><b>R1'in AI üretimi yüzdeleri:</b> kaynakları (r/veYakinEvren dahil) gerçek olsa da virgüllü oranlar tema için kullanıldı, sayısal omurga için değil</li>
             <li><b>GAME+ blog</b> adresi bağımsız teyit edilemedi; içerik /destek sayfasından doğrulandı</li>
             <li><b>DataForSEO YouTube/içerik araçları</b> bu turda hâlâ kapalıydı; YouTube yine Chrome ile elle okundu</li>
           </ul>
@@ -596,7 +627,7 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
       <h3>Rapor bazında karşılaştırma</h3>
       <div class="ch-sub">Aynı olay, üç farklı örneklem. Şeffaflık için ham hâlleriyle.</div>
       <div style="margin-bottom:16px">
-        <div style="font-size:12.5px;font-weight:700;margin-bottom:6px"><span class="tag-r tag-r1">R1</span> Algı (n=185, doğrulanamadı)</div>
+        <div style="font-size:12.5px;font-weight:700;margin-bottom:6px"><span class="tag-r tag-r1">R1</span> Algı (n=185, AI üretimi %)</div>
         <div class="stack"><div class="s-neg" style="width:65.9%">%65,9</div><div class="s-neu" style="width:23.8%">%23,8</div><div class="s-pos" style="width:10.3%">%10,3</div></div>
       </div>
       <div style="margin-bottom:16px">
@@ -696,7 +727,7 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
     </div>
 
     <div class="trow">
-      <div class="top"><span class="rank">8</span><span class="tname">Ek süre satın alma = para tuzağı</span><span class="band b3">Orta</span></div>
+      <div class="top"><span class="rank">8</span><span class="tname">Ek süre / aşım maliyeti</span><span class="band b3">Orta</span></div>
       <div class="tdesc">Ayı çıkarabilmek için sürekli 15 saatlik ek paket almak zorunda kalma; servisin "her şey için ekstra para" düzenine dönüştüğü eleştirisi.</div>
       <div class="tmeta"><span class="pill"><span class="tag-r tag-r1">R1</span> <b>%4,9</b></span><span class="pill"><span class="tag-r tag-r3">R3</span> <b>Düşük-Orta</b></span></div>
       <div class="qmini">"Aylık süreyi aşınca devam edebilmek için sürekli 15 saatlik ek paketler almak zorunda kalacağız; resmen para tuzağı." <a href="https://www.technopat.net/sosyal/konu/geforce-now-100-saat-kotasi-geliyor-iste-yeni-fiyatlar.4002301/" target="_blank" rel="noopener">→ Technopat Sosyal</a></div>
@@ -889,7 +920,7 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
   </div>
 
   <div class="xgrouplabel r">⚠ Bugünkü tepki - Mayıs/Haziran 2026</div>
-  <div style="columns:3;column-gap:18px">
+  <div class="xgrid">
     <div class="xcard recent">
       <div class="xhead"><div class="xav">e</div><div class="xnm">ekşi sözlük<small>geforce now başlığı</small></div><div class="xdate">15.05.2026</div></div>
       <div class="xbody">"2 gün önce günlük 6 saat olan paketten 599 TL ödeyerek aldım. Şimdi mail gelmiş, aylık 100 saate düşürmüşler. Şaka gibi değil mi? 180 saatlik hakkımızın neredeyse yarısını elimizden almışlar, neymiş tüm dünyada böyleymiş. Kabul edilebilir değil."</div>
@@ -991,8 +1022,8 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
 
 <!-- COST -->
 <section class="section" id="maliyet">
-  <h2 class="sec"><span class="ix">09</span> "Para tuzağı": sınırı aşınca ne kadar öder?</h2>
-  <p class="sec-sub">100 saati geçince sistem en yakın 15 saatlik pakete yuvarlıyor (Performance $2,99 / Ultimate $5,99). Aşağıdaki tahmini aylık tutarlar DonanımHaber'in hesabına dayanıyor ve "ek süre = para tuzağı" algısının somut karşılığı.</p>
+  <h2 class="sec"><span class="ix">09</span> Sınırı aşınca ne kadar öder? (ek süre maliyeti)</h2>
+  <p class="sec-sub">100 saati geçince sistem en yakın 15 saatlik pakete yuvarlıyor (Performance $2,99 / Ultimate $5,99). Bu ek süre düzeni NVIDIA'nın global GeForce NOW yapısıdır, Türkiye'ye özel değildir. Aşağıdaki tahmini aylık tutarlar DonanımHaber'in hesabına dayanıyor ve çok oynayan kullanıcının ek maliyetini gösteriyor.</p>
 
   <div class="cost-grid">
     <div class="costcard"><div class="hrs">3 saat / gün</div><div class="mo">~91 saat / ay</div><div class="pf ok">Limit içinde</div><div class="pflab">ek ücret yok</div><div class="ult">Ultimate: değişmez</div></div>
@@ -1067,7 +1098,7 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
       <div class="k">En ikna edici hamle: "sınır koyuyorsan karşılığında değer ver".</div>
       <ul>
         <li><b>Görünür donanım yükseltmesi:</b> Türkiye sunucularının güçlendirilmesi, 100 saatin kabul görmesini doğrudan artırır (en sık ikinci talep).</li>
-        <li><b>TL bazlı, şeffaf ek süre:</b> "Para tuzağı" algısını kırmak için yerel fiyat ve daha küçük paketler (ör. 5 saatlik "can suyu").</li>
+        <li><b>TL bazlı, şeffaf ek süre:</b> ek süre maliyeti algısını yumuşatmak için yerel fiyat ve daha küçük paketler (ör. 5 saatlik "can suyu").</li>
         <li><b>Devirde esneklik:</b> 15 saat devri "süre biriktirme" olarak 30 saate çıkar - "param yanıyor" algısını kır.</li>
         <li><b>Hedefli yaptırım:</b> Aşırı kötüye kullananı engelle; genel sınırı bundan ayrı anlat.</li>
       </ul>
@@ -1123,7 +1154,7 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
         <tr data-s="neg"><td class="med">Reddit r/GeForceNOW</td><td>Global tartışma</td><td>2024</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>Global ilk tepkiler, alternatif arayışı</td><td><a class="tl-link" href="https://www.reddit.com/r/GeForceNOW/comments/1heaozn/only_100_hours_per_month_playtime_on_geforce_now/" target="_blank" rel="noopener">Aç →</a></td></tr>
         <tr data-s="neg"><td class="med">Reddit r/GeForceNOW (güncel)</td><td>Global tartışma</td><td>May 2026</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>"Gameplus bana bu maili attı": TR'de 100 saat sınırı; yurt dışı topluluk da fark etti, 200 saat geçmişini hatırlattı <span class="vbadge v-ok">Google ile bulundu</span></td><td><a class="tl-link" href="https://www.reddit.com/r/GeForceNOW/comments/1th5i13/gameplus_turkish_gfn_provider_just_sent_me_this/" target="_blank" rel="noopener">Aç →</a></td></tr>
         <tr data-s="info"><td class="med">Reddit r/GeForceNOW</td><td>Global tartışma</td><td>2023</td><td><span class="sent-dot d-info"><i></i>Bilgi</span></td><td>GAME+'ın 2023'te 200 saat sınırını koyup tepki üzerine geri çekmesi (geri alınan ilk süre sınırı) <span class="vbadge v-ok">Google ile bulundu</span></td><td><a class="tl-link" href="https://www.reddit.com/r/GeForceNOW/comments/125qqdy/update_geforce_now_turkeygameplus_has_reversed/" target="_blank" rel="noopener">Aç →</a></td></tr>
-        <tr data-s="neg"><td class="med">Reddit r/veYakinEvren</td><td>Tartışma</td><td>2026</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>R1'in ana TR kaynağı <span class="vbadge v-no">doğrulanamadı</span> - kesin sayılarına güvenilmedi</td><td><a class="tl-link" href="https://www.reddit.com/r/veYakinEvren/" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Reddit r/veYakinEvren</td><td>Tartışma</td><td>2026</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>R1'in ana TR kaynağı: "Türkiye GeForce now 100 saat sınırı" başlığı <span class="vbadge v-ok">başlık doğrulandı</span></td><td><a class="tl-link" href="https://www.reddit.com/r/veYakinEvren/comments/1tqkkr6/t%C3%BCrkiye_geforce_now_100_saat_s%C4%B1n%C4%B1r%C4%B1/" target="_blank" rel="noopener">Aç →</a></td></tr>
         <tr data-s="neu"><td class="med">YouTube · Can Sungur</td><td>Video + yorum</td><td>2024-25</td><td><span class="sent-dot d-neu"><i></i>Karışık</span></td><td>50B izlenme, 171 yorum; en beğenilen yorum GFN'i savunuyor (151 beğeni) <span class="vbadge v-ok">Chrome ile okundu</span></td><td><a class="tl-link" href="https://www.youtube.com/watch?v=A744UCeRtWY" target="_blank" rel="noopener">Aç →</a></td></tr>
         <tr data-s="neu"><td class="med">YouTube · Techolay</td><td>Video + yorum</td><td>5 ay önce</td><td><span class="sent-dot d-neu"><i></i>Karışık</span></td><td>Kısa Devre #52'de 100 saat bölümü; yorumlar çoğunlukla başka konularda</td><td><a class="tl-link" href="https://www.youtube.com/watch?v=gZvtz5VyinE" target="_blank" rel="noopener">Aç →</a></td></tr>
         <tr data-s="neu"><td class="med">YouTube · Garbarius</td><td>Video + yorum</td><td>Eki 2025 (yorumlar Haz 2026)</td><td><span class="sent-dot d-neu"><i></i>Karışık</span></td><td>"Gameplus geforce now" aramasında 1. sıra (55B izlenme); en beğenilen yorum dengeli (231 beğeni), taze yorumlarda memnun sesler de var <span class="vbadge v-ok">DataForSEO ile çekildi</span></td><td><a class="tl-link" href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">Aç →</a></td></tr>
@@ -1151,7 +1182,7 @@ table.src-tbl td.med{font-weight:700;color:var(--heading);white-space:nowrap}
     <h4>Sınırlar ve güvenilirlik notu</h4>
     <ul>
       <li><b>Kimi yansıtıyor:</b> Bu veri yorum yazan kitleyi yansıtır, sessiz çoğunluğu değil. Yüzdeler yön gösterir, kesin ölçüm değildir.</li>
-      <li><b>Üç rapor birleştirildi:</b> R1 (185 yorum) doğrulanamayan kesin sayılar içerdiği için sadece tema düzeyinde kullanıldı; sayısal omurga, doğrulanan R3 + R2 alıntılarına dayandırıldı.</li>
+      <li><b>Üç rapor birleştirildi:</b> R1 (185 yorum), 15 gerçek kaynaktan derlenen bir AI derin-araştırma raporu; yüzdeleri AI üretimi olduğu için tema ve kaynak düzeyinde kullanıldı, sayısal omurga elle doğrulanan R3 + R2 alıntılarına dayandırıldı.</li>
       <li><b>Genişletme:</b> X/Twitter'a giriş yapılınca tarandı (söz ve dönüş belgelendi); Ekşi ve DonanımHaber forumunun en yeni sayfaları 15 Haz 2026'ya kadar okundu; Şikayetvar'ın güncel şikayetleri eklendi. Bu son turda YouTube, DataForSEO ile Türkiye (tr) olarak ölçekli tarandı; en üst sıradaki TR inceleme videosunun (Garbarius) yorumları Haziran 2026'ya kadar çekildi. Reddit doğrudan açılamadı (sayfa 403 ile engelliyor), ama Google üzerinden gerçek başlıklar bulundu: yurt dışı topluluk hem sözü hem dönüşü belgelemiş, ayrıca 2023'teki 200 saat geri adımı ortaya çıktı. Instagram ve Discord kapalı kaldı.</li>
       <li><b>Güncellik bulgusu:</b> Haziran 2026'da bu konuda yeni sosyal medya paylaşımı düşük hacimli; asıl taze öfke Ekşi ve Şikayetvar'da, fiyat ve faturalandırma ekseninde yoğunlaşıyor. YouTube'da ise konu az; en üst inceleme videosunun yorumlarında dengeli, hatta memnun sesler baskın.</li>
       <li><b>Doğrulama:</b> Dünya geneli gerçekler, Technopat/Şikayetvar/DonanımHaber alıntı ve rakamları bağımsız teyit edildi. GAME+ blog adresi bağımsız bulunamadı; kuralın içeriği gameplus.com.tr/destek üzerinden doğrulandı. Hiçbir sayı veya alıntı uydurulmadı.</li>
@@ -1247,6 +1278,45 @@ if(sent) sent.addEventListener('change',filterTbl);
   function set(t){ if(t==='dark') root.setAttribute('data-theme','dark'); else root.removeAttribute('data-theme'); try{localStorage.setItem(KEY,t);}catch(e){} label(); }
   label();
   if(btn) btn.addEventListener('click',function(){ set(isDark()?'light':'dark'); });
+})();
+
+// term tooltip (R1/R2/R3)
+(function(){
+  var terms=document.querySelectorAll('.term[data-term]');
+  if(!terms.length) return;
+  var tip=document.createElement('div'); tip.className='termtip'; document.body.appendChild(tip);
+  function show(el){
+    tip.textContent=el.getAttribute('data-term'); tip.classList.add('show');
+    var r=el.getBoundingClientRect(), tw=tip.offsetWidth, th=tip.offsetHeight;
+    var left=Math.min(Math.max(8, r.left + r.width/2 - tw/2), window.innerWidth - tw - 8);
+    var top=r.top - th - 9; if(top<8) top=r.bottom + 9;
+    tip.style.left=left+'px'; tip.style.top=top+'px';
+  }
+  function hide(){ tip.classList.remove('show'); }
+  terms.forEach(function(el){
+    el.setAttribute('tabindex','0');
+    el.addEventListener('mouseenter',function(){show(el);});
+    el.addEventListener('mouseleave',hide);
+    el.addEventListener('focus',function(){show(el);});
+    el.addEventListener('blur',hide);
+    el.addEventListener('click',function(e){ e.stopPropagation(); tip.classList.contains('show')?hide():show(el); });
+  });
+  window.addEventListener('scroll',hide,true);
+  document.addEventListener('click',hide);
+})();
+
+// progress bar + back-to-top
+(function(){
+  var bar=document.getElementById('progressBar'), btt=document.getElementById('backToTop');
+  function onScroll(){
+    var st=document.documentElement.scrollHeight - window.innerHeight;
+    var pct=st>0 ? (window.scrollY/st)*100 : 0;
+    if(bar) bar.style.width=(pct>100?100:pct)+'%';
+    if(btt) btt.classList.toggle('show', window.scrollY>320);
+  }
+  if(btt) btt.addEventListener('click',function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll); onScroll();
 })();
 </script>
 </body>
