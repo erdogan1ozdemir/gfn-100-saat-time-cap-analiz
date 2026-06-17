@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeForce NOW 100 Saat - Türkiye Kullanıcı Algısı | Sosyal Dinleme Dashboard</title>
+<style>
+:root{
+  --bg:#0a0d12; --bg2:#0d1117; --surface:#141b24; --surface2:#1a2230; --surface3:#212b3a;
+  --border:#243043; --border2:#2e3c52;
+  --text:#e8eef6; --muted:#8b97a8; --muted2:#5f6b7d;
+  --green:#76b900; --green2:#9fe000; --green-dim:#3d5e00;
+  --neg:#ff5c5c; --neg-dim:#3a1717; --neu:#f0b429; --neu-dim:#3a2f0e; --pos:#3fb950; --pos-dim:#13301b;
+  --blue:#2f81f7; --purple:#a371f7;
+  --r1:#2f81f7; --r2:#a371f7; --r3:#76b900;
+  --shadow:0 8px 30px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Segoe UI',Roboto,-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;
+  line-height:1.6; font-size:15px;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 500px at 88% -8%,rgba(118,185,0,.10),transparent 60%),radial-gradient(720px 420px at 5% 0%,rgba(47,129,247,.07),transparent 55%);
+  background-attachment:fixed;
+}
+a{color:var(--green2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+section{padding:46px 0;border-top:1px solid var(--border)}
+section:first-of-type{border-top:none}
+h2.sec{font-size:25px;font-weight:800;letter-spacing:-.4px;display:flex;align-items:center;gap:12px;margin-bottom:6px}
+h2.sec .ix{font-size:13px;font-weight:700;color:var(--green2);background:var(--green-dim);border:1px solid #4d7400;border-radius:8px;padding:3px 9px;font-variant-numeric:tabular-nums}
+.sec-sub{color:var(--muted);max-width:760px;margin-bottom:26px;font-size:14.5px}
+.eyebrow{text-transform:uppercase;letter-spacing:2.2px;font-size:11.5px;font-weight:700;color:var(--green)}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;background:rgba(10,13,18,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav .wrap{display:flex;align-items:center;gap:8px;height:56px;overflow-x:auto;scrollbar-width:none}
+.nav .wrap::-webkit-scrollbar{display:none}
+.nav .brand{font-weight:800;font-size:15px;white-space:nowrap;margin-right:6px;display:flex;align-items:center;gap:8px}
+.nav .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.nav a{color:var(--muted);font-size:13px;font-weight:600;white-space:nowrap;padding:7px 11px;border-radius:7px}
+.nav a:hover{color:var(--text);background:var(--surface2);text-decoration:none}
+
+/* HERO */
+.hero{padding:54px 0 38px}
+.hero h1{font-size:40px;line-height:1.12;font-weight:850;letter-spacing:-1px;margin:14px 0 14px;max-width:880px}
+.hero h1 .hl{color:var(--green2)}
+.hero p.lead{font-size:17px;color:var(--muted);max-width:760px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border2);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;color:var(--text)}
+.chip b{color:var(--green2)}
+.chip.warn b{color:var(--neu)}
+
+/* REG STRIP */
+.regstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.regcard{background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--border);border-radius:14px;padding:18px 16px;position:relative;overflow:hidden}
+.regcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+.regcard .ti{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.6px}
+.regcard .bi{font-size:21px;font-weight:800;margin:7px 0 4px;color:var(--text)}
+.regcard .si{font-size:12.5px;color:var(--muted)}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;position:relative;overflow:hidden}
+.kpi .lab{font-size:12.5px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:7px}
+.kpi .big{font-size:38px;font-weight:850;letter-spacing:-1px;margin-top:8px;line-height:1}
+.kpi .sub{font-size:12.5px;color:var(--muted);margin-top:7px}
+.kpi.neg .big{color:var(--neg)} .kpi.pos .big{color:var(--pos)} .kpi.neu .big{color:var(--neu)} .kpi.grn .big{color:var(--green2)}
+.kpi .spark{position:absolute;right:14px;top:16px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px}
+.badge-risk{background:var(--neg-dim);color:var(--neg);border:1px solid #5a2020}
+.badge-mid{background:var(--neu-dim);color:var(--neu);border:1px solid #5a4a14}
+
+/* generic cards / grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px}
+.card h3{font-size:16px;font-weight:750;margin-bottom:4px;display:flex;align-items:center;gap:9px}
+.card .ch-sub{font-size:12.5px;color:var(--muted);margin-bottom:18px}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px}
+
+/* sources line */
+.src{margin-top:14px;padding-top:12px;border-top:1px dashed var(--border2);font-size:11.5px;color:var(--muted2);display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.src .lbl{font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;font-size:10.5px}
+.src a{color:var(--blue);font-weight:600}
+.src a::before{content:"↗ ";opacity:.7}
+.vbadge{font-size:10px;font-weight:700;padding:1.5px 6px;border-radius:5px;border:1px solid}
+.v-ok{color:var(--pos);border-color:#1f5130;background:var(--pos-dim)}
+.v-part{color:var(--neu);border-color:#5a4a14;background:var(--neu-dim)}
+.v-no{color:var(--neg);border-color:#5a2020;background:var(--neg-dim)}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin:0 0 18px}
+.legend span{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);font-weight:600}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+/* bars */
+.bar-row{display:grid;grid-template-columns:170px 1fr;gap:14px;align-items:center;margin-bottom:13px}
+.bar-row .nm{font-size:13px;font-weight:600;color:var(--text)}
+.bar-row .nm small{display:block;color:var(--muted2);font-weight:500;font-size:11px}
+.track{background:var(--surface3);border-radius:7px;height:26px;position:relative;overflow:hidden}
+.fill{height:100%;border-radius:7px;display:flex;align-items:center;justify-content:flex-end;padding-right:9px;font-size:12px;font-weight:800;color:#06210a;min-width:34px;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+
+/* stacked sentiment bar */
+.stack{display:flex;height:30px;border-radius:8px;overflow:hidden;border:1px solid var(--border2)}
+.stack > div{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#0a0d12;transition:width .9s ease}
+.s-neg{background:var(--neg)} .s-neu{background:var(--neu)} .s-pos{background:var(--pos)}
+
+/* 3-AI compare table */
+table.cmp{width:100%;border-collapse:collapse;font-size:13.5px}
+table.cmp th,table.cmp td{text-align:left;padding:12px 12px;border-bottom:1px solid var(--border)}
+table.cmp thead th{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:700;background:var(--bg2)}
+table.cmp tbody td:first-child{font-weight:700;color:var(--text)}
+table.cmp tr:hover td{background:var(--surface2)}
+.tag-r{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:5px;color:#06210a}
+.tag-r1{background:var(--r1)} .tag-r2{background:var(--r2)} .tag-r3{background:var(--r3)}
+
+/* convergence/divergence */
+.cd{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cd .col{border-radius:14px;padding:20px;border:1px solid var(--border)}
+.cd .col.agree{background:linear-gradient(180deg,rgba(63,185,80,.07),transparent);border-color:#1f5130}
+.cd .col.diverge{background:linear-gradient(180deg,rgba(240,180,41,.07),transparent);border-color:#5a4a14}
+.cd h4{font-size:14px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.cd ul{list-style:none}
+.cd li{font-size:13px;padding:9px 0 9px 24px;position:relative;border-bottom:1px solid var(--border);color:var(--muted)}
+.cd li:last-child{border-bottom:none}
+.cd li b{color:var(--text);font-weight:650}
+.cd .agree li::before{content:"✓";position:absolute;left:0;color:var(--pos);font-weight:800}
+.cd .diverge li::before{content:"⚠";position:absolute;left:0;color:var(--neu)}
+
+/* theme list */
+.theme{display:grid;grid-template-columns:1fr;gap:11px}
+.trow{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;transition:border-color .2s}
+.trow:hover{border-color:var(--green-dim)}
+.trow .top{display:flex;align-items:center;gap:12px}
+.trow .rank{font-size:13px;font-weight:850;color:var(--green2);width:24px;flex-shrink:0}
+.trow .tname{font-weight:700;font-size:14px;flex:1}
+.band{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:6px}
+.b5{background:var(--neg);color:#2a0a0a} .b4{background:var(--neg2);color:#2a0a0a} .b3{background:var(--neu);color:#241c04} .b2{background:#5b6b7d;color:#0a0d12} .bpos{background:var(--pos);color:#06210a}
+.trow .tdesc{font-size:12.5px;color:var(--muted);margin-top:8px}
+.trow .tmeta{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.pill{font-size:10.5px;font-weight:700;padding:2.5px 8px;border-radius:5px;background:var(--surface3);color:var(--muted);border:1px solid var(--border2)}
+.pill b{color:var(--text)}
+.qmini{font-size:12.5px;color:var(--text);font-style:italic;margin-top:10px;padding:9px 12px;background:var(--bg2);border-left:2px solid var(--green);border-radius:0 8px 8px 0}
+.qmini a{font-style:normal;font-size:11px;font-weight:700}
+
+/* quote wall */
+.qfilter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.qbtn{background:var(--surface2);border:1px solid var(--border2);color:var(--muted);font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:9px;cursor:pointer;transition:all .15s}
+.qbtn:hover{color:var(--text)}
+.qbtn.active{background:var(--green);color:#06210a;border-color:var(--green)}
+.qwall{columns:3;column-gap:18px}
+.quote{break-inside:avoid;margin-bottom:18px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;border-top:3px solid var(--muted2)}
+.quote.q-neg{border-top-color:var(--neg)} .quote.q-neu{border-top-color:var(--neu)} .quote.q-pos{border-top-color:var(--pos)}
+.quote .qt{font-size:13.5px;line-height:1.55;color:var(--text)}
+.quote .qmeta{display:flex;align-items:center;justify-content:space-between;margin-top:14px;font-size:11.5px;color:var(--muted)}
+.quote .qmeta .who{font-weight:700;color:var(--muted)}
+.quote .qsrc{font-size:11px;font-weight:700}
+.s-flag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:2px 7px;border-radius:5px;margin-bottom:10px}
+.f-neg{background:var(--neg-dim);color:var(--neg)} .f-neu{background:var(--neu-dim);color:var(--neu)} .f-pos{background:var(--pos-dim);color:var(--pos)}
+
+/* x evidence cards */
+.xcard{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:11px;break-inside:avoid}
+.xcard.promise{border-color:#1f5130;background:linear-gradient(180deg,rgba(63,185,80,.05),var(--surface))}
+.xcard.recent{border-color:#5a2020;background:linear-gradient(180deg,rgba(255,92,92,.05),var(--surface))}
+.xhead{display:flex;align-items:center;gap:10px}
+.xav{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--surface3),var(--border2));flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--muted);font-size:13px}
+.xnm{font-weight:750;font-size:13.5px;line-height:1.2;display:flex;align-items:center;gap:5px}
+.xnm .v{color:var(--blue);font-size:12px}
+.xnm small{display:block;color:var(--muted2);font-weight:500;font-size:11.5px}
+.xdate{margin-left:auto;font-size:11.5px;color:var(--muted2);white-space:nowrap}
+.xbody{font-size:13.5px;line-height:1.55;color:var(--text)}
+.ximg{font-size:12.5px;color:var(--muted);font-style:italic;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:0 10px 10px 0;padding:10px 12px}
+.xstats{display:flex;gap:16px;font-size:11.5px;color:var(--muted2);border-top:1px solid var(--border);padding-top:9px;align-items:center}
+.xstats b{color:var(--muted)}
+.xstats a{margin-left:auto;font-weight:700;color:var(--blue)}
+.xgrouplabel{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin:6px 0 2px}
+.xgrouplabel.p{color:var(--pos)} .xgrouplabel.r{color:var(--neg)}
+
+/* competitor */
+.comp{display:flex;flex-direction:column;gap:14px}
+.comprow{display:grid;grid-template-columns:150px 1fr auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 16px}
+.comprow .cn{font-weight:750;font-size:14px}
+.comprow .cn small{display:block;color:var(--muted2);font-weight:500;font-size:11px}
+.comprow .cbar{background:var(--surface3);height:14px;border-radius:7px;overflow:hidden}
+.comprow .cbar i{display:block;height:100%;background:linear-gradient(90deg,var(--neg),var(--neg2));border-radius:7px}
+.comprow .cval{font-size:13px;font-weight:800;color:var(--neg2);white-space:nowrap}
+
+/* cost */
+.cost-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:8px}
+.costcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 16px;text-align:center;position:relative}
+.costcard.hot{border-color:#5a2020;background:linear-gradient(180deg,rgba(255,92,92,.08),var(--surface))}
+.costcard .hrs{font-size:13px;color:var(--muted);font-weight:600}
+.costcard .mo{font-size:13px;color:var(--text);font-weight:700;margin:5px 0 12px}
+.costcard .pf{font-size:24px;font-weight:850;color:var(--neg)}
+.costcard .pf.ok{color:var(--pos)}
+.costcard .pflab{font-size:11px;color:var(--muted2)}
+.costcard .ult{font-size:12.5px;color:var(--neu);font-weight:700;margin-top:8px;border-top:1px solid var(--border);padding-top:8px}
+
+/* timeline */
+.tl{position:relative;margin-top:10px;padding-left:6px}
+.tl::before{content:"";position:absolute;left:13px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--green),var(--neg))}
+.tlitem{position:relative;padding:0 0 22px 42px}
+.tlitem .node{position:absolute;left:6px;top:2px;width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--green);z-index:2}
+.tlitem.u .node{border-color:var(--neg);box-shadow:0 0 10px rgba(255,92,92,.5)}
+.tlitem.now .node{border-color:var(--neu);box-shadow:0 0 12px rgba(240,180,41,.6)}
+.tlitem .dt{font-size:12px;font-weight:800;color:var(--green2)}
+.tlitem.u .dt{color:var(--neg)} .tlitem.now .dt{color:var(--neu)}
+.tlitem .tx{font-size:13.5px;color:var(--text);font-weight:600;margin-top:2px}
+.tlitem .tx small{display:block;color:var(--muted);font-weight:400;margin-top:3px;font-size:12.5px}
+.tlitem .tlsrc{font-size:11px;margin-top:5px}
+
+/* actions */
+.act{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.actcol{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;border-top:3px solid var(--green)}
+.actcol.cx{border-top-color:var(--blue)} .actcol.urun{border-top-color:var(--neu)}
+.actcol h4{font-size:15px;font-weight:800;display:flex;align-items:center;gap:9px;margin-bottom:5px}
+.actcol .k{font-size:12px;color:var(--muted);margin-bottom:15px}
+.actcol ul{list-style:none}
+.actcol li{font-size:12.8px;padding:11px 0 11px 22px;position:relative;border-bottom:1px solid var(--border);color:var(--muted)}
+.actcol li:last-child{border-bottom:none}
+.actcol li::before{content:"▸";position:absolute;left:2px;color:var(--green);font-weight:800}
+.actcol li b{color:var(--text);font-weight:700}
+
+/* demands */
+.dem{display:flex;flex-direction:column;gap:10px}
+.demrow{display:grid;grid-template-columns:28px 1fr 110px;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:12px 16px}
+.demrow .dn{font-weight:850;color:var(--green2);font-size:14px}
+.demrow .dt{font-size:13.5px;font-weight:600}
+.demrow .dt small{display:block;color:var(--muted);font-weight:400;font-size:12px;margin-top:2px}
+.freqtag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;text-align:center;padding:5px 0;border-radius:7px}
+.fr-h{background:var(--neg-dim);color:var(--neg)} .fr-m{background:var(--neu-dim);color:var(--neu)} .fr-l{background:var(--surface3);color:var(--muted)}
+
+/* source table */
+.tbl-tools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;align-items:center}
+.tbl-tools input,.tbl-tools select{background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:9px;padding:9px 13px;font-size:13px;font-family:inherit}
+.tbl-tools input{flex:1;min-width:200px}
+.tbl-tools input::placeholder{color:var(--muted2)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px}
+table.src-tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
+table.src-tbl th,table.src-tbl td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+table.src-tbl thead th{background:var(--bg2);font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:700;position:sticky;top:0;cursor:pointer;white-space:nowrap}
+table.src-tbl tbody tr:hover{background:var(--surface2)}
+table.src-tbl td.med{font-weight:700;color:var(--text);white-space:nowrap}
+.sent-dot{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:12px;white-space:nowrap}
+.sent-dot i{width:9px;height:9px;border-radius:50%}
+.d-neg i{background:var(--neg)} .d-neg{color:var(--neg)}
+.d-neu i{background:var(--neu)} .d-neu{color:var(--neu)}
+.d-pos i{background:var(--pos)} .d-pos{color:var(--pos)}
+.d-info i{background:var(--blue)} .d-info{color:var(--blue)}
+.src-tbl a.tl-link{font-weight:600;color:var(--blue)}
+
+/* callout */
+.callout{background:linear-gradient(180deg,rgba(118,185,0,.08),transparent);border:1px solid var(--green-dim);border-left:4px solid var(--green);border-radius:0 14px 14px 0;padding:18px 22px;margin:8px 0}
+.callout.warn{background:linear-gradient(180deg,rgba(240,180,41,.08),transparent);border-color:#5a4a14;border-left-color:var(--neu)}
+.callout h4{font-size:14.5px;font-weight:800;margin-bottom:7px;display:flex;gap:9px;align-items:center}
+.callout p{font-size:13.5px;color:var(--muted)}
+.callout p b{color:var(--text)}
+
+/* footer */
+.foot{border-top:1px solid var(--border);padding:34px 0 60px;color:var(--muted2);font-size:12.5px}
+.foot b{color:var(--muted)}
+.disc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:24px}
+.disc h4{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--neu);margin-bottom:10px}
+.disc ul{margin-left:18px;font-size:12.5px;color:var(--muted);line-height:1.7}
+
+@media(max-width:920px){
+  .regstrip,.kpis,.cost-grid{grid-template-columns:repeat(2,1fr)}
+  .grid2,.grid3,.cd,.act{grid-template-columns:1fr}
+  .qwall{columns:2}
+  .hero h1{font-size:31px}
+  .bar-row{grid-template-columns:120px 1fr}
+}
+@media(max-width:600px){
+  .regstrip,.kpis,.cost-grid,.qwall{grid-template-columns:1fr;columns:1}
+  .demrow{grid-template-columns:24px 1fr;}.demrow .freqtag{grid-column:2}
+  .comprow{grid-template-columns:1fr}
+}
+
+/* ===== LIGHT (SOFT) THEME ===== */
+html[data-theme="light"]{
+  --bg:#eef1f6; --bg2:#e6eaf1; --surface:#ffffff; --surface2:#f3f6fa; --surface3:#e8edf3;
+  --border:#dce2ec; --border2:#cbd5e2;
+  --text:#1b2433; --muted:#586473; --muted2:#8a94a4;
+  --green:#76b900; --green2:#4c7a00; --green-dim:#e9f3d3;
+  --neg:#d62f2f; --neg-dim:#fbe4e4; --neu:#b97c06; --neu-dim:#f9efd2; --pos:#2e9e4c; --pos-dim:#e2f3e8;
+  --blue:#1a64d6; --purple:#7c4ddb;
+  --r1:#1a64d6; --r2:#7c4ddb; --r3:#5e9400;
+  --shadow:0 6px 22px rgba(25,38,58,.10);
+}
+html[data-theme="light"] .nav{background:rgba(238,241,246,.85)}
+html[data-theme="light"] .badge-mid,
+html[data-theme="light"] .v-part,
+html[data-theme="light"] .callout.warn,
+html[data-theme="light"] .cd .col.diverge{border-color:#e6d09c}
+html[data-theme="light"] .v-ok,
+html[data-theme="light"] .cd .col.agree,
+html[data-theme="light"] .xcard.promise{border-color:#bfe3cc}
+html[data-theme="light"] .badge-risk,
+html[data-theme="light"] .v-no,
+html[data-theme="light"] .xcard.recent,
+html[data-theme="light"] .costcard.hot{border-color:#f0c0c0}
+
+/* theme toggle */
+.theme-toggle{position:fixed;right:18px;bottom:18px;z-index:80;display:inline-flex;align-items:center;gap:8px;
+  background:var(--surface);border:1px solid var(--border2);color:var(--text);cursor:pointer;
+  font-size:13px;font-weight:700;font-family:inherit;padding:10px 15px;border-radius:999px;box-shadow:var(--shadow);
+  transition:transform .15s ease,border-color .2s,background .2s}
+.theme-toggle:hover{transform:translateY(-2px);border-color:var(--green)}
+@media(max-width:600px){.theme-toggle{right:12px;bottom:12px;padding:9px 13px;font-size:12px}}
+</style>
+<script>(function(){try{if(localStorage.getItem('gfn-theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav"><div class="wrap">
+  <span class="brand"><span class="dot"></span>GFN · 100 Saat</span>
+  <a href="#ozet">Özet</a>
+  <a href="#zaman">Zaman Çizelgesi</a>
+  <a href="#metodoloji">3 Rapor</a>
+  <a href="#sentiment">Tepki Tonu</a>
+  <a href="#temalar">Temalar</a>
+  <a href="#alintilar">Alıntılar</a>
+  <a href="#youtube">YouTube</a>
+  <a href="#guncel">Güncel Tepki</a>
+  <a href="#rakip">Rakipler</a>
+  <a href="#maliyet">Maliyet</a>
+  <a href="#sikayet">Şikayetler</a>
+  <a href="#talepler">Aksiyon</a>
+  <a href="#kaynaklar">Kaynaklar</a>
+</div></nav>
+
+<!-- HERO -->
+<header class="wrap hero" id="ozet">
+  <div class="eyebrow">GAME+ · GeForce NOW Türkiye - Sosyal Dinleme Raporu</div>
+  <h1>GeForce NOW <span class="hl">100 saat sınırı</span><br>Türk oyuncular ne diyor?</h1>
+  <p class="lead">10 Haziran 2026'da başlayan aylık 100 saat kuralına Türk oyuncuların tepkisi. Üç ayrı yapay zeka araştırması doğrulanıp tek panelde birleştirildi; üstüne YouTube, X/Twitter, Ekşi ve en güncel şikayetlerle genişletildi (en taze yorum: 15 Haziran 2026).</p>
+  <div class="meta">
+    <span class="chip">Taranan <b>~300 yorum, tweet ve şikayet</b></span>
+    <span class="chip">X + Ekşi + Şikayetvar <b>en taze: 15 Haz 2026</b></span>
+    <span class="chip warn">Genel hava <b>ağırlıklı olumsuz (~%70)</b></span>
+    <span class="chip">Dönem <b>Kas 2024 - Haz 2026</b></span>
+  </div>
+
+  <!-- regulation strip -->
+  <div class="regstrip">
+    <div class="regcard"><div class="ti">Aylık sınır</div><div class="bi">100 saat</div><div class="si">Performance + Ultimate paketleri</div></div>
+    <div class="regcard"><div class="ti">Devir hakkı</div><div class="bi">15 saat</div><div class="si">Kullanılmayan sürenin üst sınırı</div></div>
+    <div class="regcard"><div class="ti">Aşım sonrası</div><div class="bi">Ek süre / temel donanım</div><div class="si">15 saatlik blok satın al ya da kısıtlı ücretsiz devam</div></div>
+    <div class="regcard"><div class="ti">Eski üye hakkı</div><div class="bi">2027'ye kadar</div><div class="si">10 Haz 2026 öncesi üyeler, kesintisiz kalırsa sınırsız</div></div>
+  </div>
+</header>
+
+<!-- KPI -->
+<section class="wrap" style="padding-top:30px;border-top:none">
+  <div class="kpis">
+    <div class="kpi neg">
+      <div class="lab">Olumsuz tepki</div>
+      <div class="big">~%70</div>
+      <div class="sub">3 raporda oran %66-88 arası; iki büyük örneklemde %66-72</div>
+    </div>
+    <div class="kpi pos">
+      <div class="lab">Olumlu azınlık</div>
+      <div class="big">~%10</div>
+      <div class="sub">"Ne kadar kullanırsan o kadar öde adil" + eski üyelerin hakkından memnun olanlar</div>
+    </div>
+    <div class="kpi neg">
+      <div class="lab">Gitme niyeti <span class="spark badge-risk">YÜKSEK</span></div>
+      <div class="big">~1/3</div>
+      <div class="sub">Olumsuz yorumların yaklaşık üçte biri "iptal ediyorum / geçiyorum" diyor</div>
+    </div>
+    <div class="kpi neu">
+      <div class="lab">En çok konuşulan <span class="spark badge-mid">#1</span></div>
+      <div class="big" style="font-size:21px;line-height:1.2;margin-top:12px">Gizli zam /<br>sınırsızdan geri adım</div>
+      <div class="sub">"100 saat az" ile birlikte ilk iki sırada</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:24px">
+    <h4>⚡ Tek cümleyle</h4>
+    <p>Aslında çoğu kişi etkilenmiyor: NVIDIA'ya göre kullanıcıların sadece <b>~%6'sı</b> ayda 100 saati geçiyor. Ama tepki rakamla değil <b>güvenle</b> ilgili: insanlar bunu <b>"sınırsız demiştiniz, geri aldınız"</b> ve <b>"önce Türkiye'de olmayacak dediniz, sonra getirdiniz"</b> diye okuyor. En büyük riskler: <b>gizli zam algısı</b> ve <b>Boosteroid'e ya da kendi bilgisayarına kaçış</b>.</p>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="wrap" id="zaman">
+  <h2 class="sec"><span class="ix">01</span> Olayın zaman çizelgesi ve güven sorunu</h2>
+  <p class="sec-sub">Kullanıcı öfkesinin sebebi tek bir duyuru değil. 2023'ten beri arka arkaya gelen kısıtlamalar ve bir "sözünden dönme" var. Bu zincir, "önce olmayacak demişlerdi" güvensizliğini besliyor.</p>
+  <div class="panel">
+    <div class="tl">
+      <div class="tlitem"><span class="node"></span>
+        <div class="dt">Mart 2023</div>
+        <div class="tx">GFN Türkiye'ye 200 saat sınırı geldi - sonra geri çekildi
+          <small>Kurumsal hafızada "tepki gelirse geri çekerler" beklentisini yaratan ilk olay.</small></div>
+        <div class="tlsrc src" style="border:none;padding:0;margin-top:5px"><a href="https://www.technopat.net/2023/03/28/geforce-now-turkiye-hizmetine-200-saat-siniri-geldi/" target="_blank" rel="noopener">Technopat 28.03.2023</a></div>
+      </div>
+      <div class="tlitem"><span class="node"></span>
+        <div class="dt">Kasım 2024</div>
+        <div class="tx">NVIDIA küresel 100 saat politikasını duyurdu
+          <small>Fiyat artışı yerine aylık süre sınırı; ~%94 kullanıcı zaten 100 saatin altında.</small></div>
+        <div class="tlsrc src" style="border:none;padding:0;margin-top:5px"><a href="https://blogs.nvidia.com/blog/geforce-now-thursday-performance-membership/" target="_blank" rel="noopener">NVIDIA Blog</a></div>
+      </div>
+      <div class="tlitem u"><span class="node"></span>
+        <div class="dt">Kasım/Aralık 2024 - SÖZÜN VERİLDİĞİ AN</div>
+        <div class="tx">GAME+: "Türkiye'de bu sınırı uygulama planımız yok"
+          <small>Bu açıklama, 18 ay sonra geri alınınca en büyük güven sorununun kaynağı oldu. X'te resmi görsel olarak 311 bin görüntülenme aldı (bkz. bölüm 07).</small></div>
+        <div class="tlsrc src" style="border:none;padding:0;margin-top:5px"><a href="https://www.webtekno.com/aylik-100-saat-siniri-geforce-now-turkiye-aciklama-h151648.html" target="_blank" rel="noopener">Webtekno</a> <a href="https://www.log.com.tr/geforce-now-game-turkiyede-100-saatlik-limite-sahip-olmayacak-iddiaya-gore-ultimate-cok-yakinda-kullanima-sunulacak/" target="_blank" rel="noopener">Log.com.tr</a></div>
+      </div>
+      <div class="tlitem"><span class="node"></span>
+        <div class="dt">23 Aralık 2025 → 1 Ocak 2026</div>
+        <div class="tx">Global sınır tüm ücretli abonelere genişledi
+          <small>Türk forumlarında ilk büyük tepki dalgası burada patladı (Technopat, DonanımHaber).</small></div>
+        <div class="tlsrc src" style="border:none;padding:0;margin-top:5px"><a href="https://www.technopat.net/2025/12/23/geforce-now-sure-siniri-basladi/" target="_blank" rel="noopener">Technopat 23.12.2025</a> <a href="https://www.donanimhaber.com/geforce-now-da-100-saat-siniri-basliyor-kim-ne-kadar-odeyecek--199984" target="_blank" rel="noopener">DonanımHaber</a></div>
+      </div>
+      <div class="tlitem u"><span class="node"></span>
+        <div class="dt">8 Haziran 2026 - SÖZDEN DÖNÜŞ</div>
+        <div class="tx">GAME+ blog: "Global Düzen Türkiye'ye Geliyor"
+          <small>2024'teki "uygulamayacağız" sözünün geri alınması. "Gizli zam" ve "sözünden döndüler" tepkisinin fitili.</small></div>
+        <div class="tlsrc src" style="border:none;padding:0;margin-top:5px"><a href="https://gameplus.com.tr/destek" target="_blank" rel="noopener">GAME+ Destek/SSS (doğrulandı)</a></div>
+      </div>
+      <div class="tlitem now"><span class="node"></span>
+        <div class="dt">10 Haziran 2026 - BAŞLANGIÇ</div>
+        <div class="tx">Türkiye'de 100 saat sistemi başladı
+          <small>Performance + Ultimate. 15 saat devir, ek süre satın alma, süre bitince düşük donanımla ücretsiz devam.</small></div>
+        <div class="tlsrc src" style="border:none;padding:0;margin-top:5px"><a href="https://shiftdelete.net/geforce-now-turkiyede-100-saat-siniri-donemi-basliyor" target="_blank" rel="noopener">ShiftDelete.Net</a></div>
+      </div>
+      <div class="tlitem"><span class="node"></span>
+        <div class="dt">10 Haziran 2027 - Eski üye hakkı biter</div>
+        <div class="tx">Herkes 100 saate geçer
+          <small>"Üyeliğin kesintisiz sürmesi" şartı kafa karıştırıyor; insanlar farkında olmadan hakkını kaybetmekten korkuyor.</small></div>
+        <div class="tlsrc src" style="border:none;padding:0;margin-top:5px"><a href="https://www.tgrthaber.com/teknoloji/geforce-nowda-100-saat-donemi-basliyor-eski-abonelerin-akibeti-belli-oldu-3272128" target="_blank" rel="noopener">TGRT Haber</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY / 3-AI -->
+<section class="wrap" id="metodoloji">
+  <h2 class="sec"><span class="ix">02</span> Yöntem ve 3 raporun karşılaştırması</h2>
+  <p class="sec-sub">Bu panel üç ayrı yapay zeka araştırmasını birleştirir. Aşağıda her birinin ne ölçtüğü, nerede aynı şeyi söyledikleri ve nerede ayrıştıkları açıkça gösteriliyor. Üstüne YouTube yorumları ve güncel şikayetler eklendi. Birleştirilmiş sayılar bu karşılaştırmaya dayanıyor.</p>
+
+  <div class="panel" style="margin-bottom:22px">
+    <div class="tbl-wrap" style="border:none">
+    <table class="cmp">
+      <thead><tr><th>Boyut</th><th><span class="tag-r tag-r1">R1</span> Algı Araştırması</th><th><span class="tag-r tag-r2">R2</span> Türkiye Araştırması</th><th><span class="tag-r tag-r3">R3</span> Compass</th></tr></thead>
+      <tbody>
+        <tr><td>Örneklem</td><td>185 yorum / 15 kaynak</td><td>16 yorum / 4 kaynak</td><td>~70–90 ifade / ~14 kaynak</td></tr>
+        <tr><td>Negatif</td><td>%65,9</td><td>%87,5</td><td>~%70–75</td></tr>
+        <tr><td>Nötr / Karışık</td><td>%23,8</td><td>%6,25</td><td>~%15–20</td></tr>
+        <tr><td>Pozitif</td><td>%10,3</td><td>%6,25</td><td>~%10</td></tr>
+        <tr><td>Erişebildiği mecralar</td><td>Technopat, DonanımHaber, Reddit, ShiftDelete, YouTube (iddia)</td><td>Yalnızca haber yorumları (ShiftDelete, Technopat, Webtekno, Şikayetvar)</td><td>Forumlar, haber yorumları, Şikayetvar, resmî kaynaklar</td></tr>
+        <tr><td>Güçlü yanı</td><td>En zengin tema/frekans tabloları, rakip oranları</td><td>Dürüst; exact-text deep-link'li (yoruma indiren) alıntılar</td><td>En güçlü içgörü (sözünden dönme, giderek artan kısıtlama), ana kaynak doğrulaması</td></tr>
+        <tr><td>Zayıf yanı</td><td>Bazı sayı/URL şüpheli kesinlikte; doğrulanamadı</td><td>Çok küçük örneklem; rakip/tema çeşitliliği eksik</td><td>Orta örneklem; YouTube/X erişilemedi</td></tr>
+        <tr><td>Doğrulama (bu çalışma)</td><td><span class="vbadge v-part">Kısmi</span> kaynakları gerçek, sayıları temel alınmadı</td><td><span class="vbadge v-ok">Yüksek</span> alıntıları birebir doğrulandı</td><td><span class="vbadge v-ok">Yüksek</span> ana kaynakları teyit edildi</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Örneklem boyutu farkı</h3>
+      <div class="ch-sub">Aynı konu, üç farklı sonuç. R1 185 yorum derken diğer ikisi 16-90'da erişim duvarına çarpmış; doğrulanamadığı için R1'in sayıları kesin kabul edilmedi.</div>
+      <div class="bar-row"><div class="nm"><span class="tag-r tag-r2">R2</span> Türkiye<small>doğrulandı, küçük</small></div><div class="track"><div class="fill" style="width:9%;background:var(--r2)">16</div></div></div>
+      <div class="bar-row"><div class="nm"><span class="tag-r tag-r3">R3</span> Compass<small>doğrulandı</small></div><div class="track"><div class="fill" style="width:43%;background:var(--r3)">~80</div></div></div>
+      <div class="bar-row"><div class="nm"><span class="tag-r tag-r1">R1</span> Algı<small>doğrulanamadı</small></div><div class="track"><div class="fill" style="width:100%;background:var(--r1)">185</div></div></div>
+      <div class="callout warn" style="margin-top:14px"><p>İki araştırma 16-90 yorumda takılmışken R1'in 185 yorum ve virgüllü yüzdeler vermesi <b>kendi içinde tutarsız</b>. Bu yüzden R1'in temaları kullanıldı, kesin sayıları kullanılmadı.</p></div>
+    </div>
+
+    <div class="card">
+      <h3>Birleştirme yöntemi</h3>
+      <div class="ch-sub">Doğrula ve birleştir: her bilgi gerçek bir kaynağa bağlandı, çalışmayan veya şüpheli linkler çıkarıldı.</div>
+      <div class="cd" style="grid-template-columns:1fr">
+        <div class="col agree">
+          <h4>✓ Doğrulananlar (yüksek güven)</h4>
+          <ul>
+            <li><b>Dünya geneli gerçekler:</b> 100 saat, ~%94 etkilenmiyor, ek süre $2,99/$5,99, 15 saat devir</li>
+            <li><b>Technopat alıntıları</b> (4080/300 TL, "kandırmak", Tüketici Hakem Heyeti) birebir doğrulandı</li>
+            <li><b>Şikayetvar</b> yetkisiz yenileme/iade şikayetleri gerçek ve güncel (Mayıs-Haziran 2026)</li>
+            <li><b>Boosteroid</b> Türkiye tartışmalarında öne çıkan alternatif (Ekşi + Technopat)</li>
+            <li><b>YouTube yorumları</b> Chrome ile okundu; en çok beğenilen yorum aslında GFN'i savunuyor (151 beğeni)</li>
+            <li><b>X / Twitter</b> giriş yapılınca tarandı: GAME+'ın "uygulamayacağız" sözü ve dönüşü tweet'lerle belgeli (311B görüntülenme)</li>
+            <li><b>Ekşi en yeni sayfalar</b> okundu: 15 Haz 2026'ya kadar taze yorumlar (fiyat şoku, Avrupa'ya kaçış)</li>
+          </ul>
+        </div>
+        <div class="col diverge">
+          <h4>⚠ Ayrışan / dikkatli kullanılan</h4>
+          <ul>
+            <li><b>Kesin yüzdeler:</b> R2'nin %87,5'i küçük örneklemden (16 yorum) gelen aykırı sonuç</li>
+            <li><b>R1'in Reddit kaynağı</b> (r/veYakinEvren) bulunamadı, doğrulanamadı</li>
+            <li><b>GAME+ blog</b> adresi bağımsız teyit edilemedi; içerik /destek sayfasından doğrulandı</li>
+            <li><b>DataForSEO YouTube/içerik araçları</b> bu turda hâlâ kapalıydı; YouTube yine Chrome ile elle okundu</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SENTIMENT -->
+<section class="wrap" id="sentiment">
+  <h2 class="sec"><span class="ix">03</span> Genel tepki tonu</h2>
+  <p class="sec-sub">Üç raporun ortak sonucu: ağırlıklı olumsuz. Üstte birleştirilmiş görünüm; altta her raporun kendi ölçümü yan yana. R2'nin daha sert oranı (%87,5) sadece 16 yoruma baktığı için yukarı kaçmış aykırı bir sonuç.</p>
+
+  <div class="legend">
+    <span><i style="background:var(--neg)"></i> Olumsuz</span>
+    <span><i style="background:var(--neu)"></i> Nötr / Karışık</span>
+    <span><i style="background:var(--pos)"></i> Olumlu</span>
+  </div>
+
+  <div class="panel" style="margin-bottom:22px">
+    <div style="font-size:12.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Birleştirilmiş dağılım</div>
+    <div class="stack" style="height:42px">
+      <div class="s-neg" style="width:70%">~%70 Olumsuz</div>
+      <div class="s-neu" style="width:20%">~%20</div>
+      <div class="s-pos" style="width:10%">~%10</div>
+    </div>
+    <div style="font-size:12px;color:var(--muted2);margin-top:10px">İki büyük ve doğrulanmış örneklem (R1, R3) %66-72 olumsuzda buluşuyor. Birleştirilmiş tahmin: ~%70 olumsuz, ~%10 olumlu.</div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Rapor bazında karşılaştırma</h3>
+      <div class="ch-sub">Aynı olay, üç farklı örneklem. Şeffaflık için ham hâlleriyle.</div>
+      <div style="margin-bottom:16px">
+        <div style="font-size:12.5px;font-weight:700;margin-bottom:6px"><span class="tag-r tag-r1">R1</span> Algı (n=185, doğrulanamadı)</div>
+        <div class="stack"><div class="s-neg" style="width:65.9%">%65,9</div><div class="s-neu" style="width:23.8%">%23,8</div><div class="s-pos" style="width:10.3%">%10,3</div></div>
+      </div>
+      <div style="margin-bottom:16px">
+        <div style="font-size:12.5px;font-weight:700;margin-bottom:6px"><span class="tag-r tag-r3">R3</span> Compass (n~80, doğrulandı)</div>
+        <div class="stack"><div class="s-neg" style="width:72%">%72</div><div class="s-neu" style="width:17%">%17</div><div class="s-pos" style="width:11%">%11</div></div>
+      </div>
+      <div>
+        <div style="font-size:12.5px;font-weight:700;margin-bottom:6px"><span class="tag-r tag-r2">R2</span> Türkiye (n=16, küçük örneklem - aykırı)</div>
+        <div class="stack"><div class="s-neg" style="width:87.5%">%87,5</div><div class="s-neu" style="width:6.25%"></div><div class="s-pos" style="width:6.25%"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Mecra bazında olumsuzluk yoğunluğu</h3>
+      <div class="ch-sub">Olumsuzluk en yoğun şikayet platformlarında; en dengeli tartışma (olumlu görüşün de göründüğü) Technopat Sosyal forumunda.</div>
+      <div class="bar-row"><div class="nm">Şikayetvar<small>doğası gereği şikayet</small></div><div class="track"><div class="fill" style="width:100%;background:var(--neg)">%100</div></div></div>
+      <div class="bar-row"><div class="nm">ShiftDelete yorumları<small>iptal niyeti</small></div><div class="track"><div class="fill" style="width:85%;background:var(--neg)">~%85</div></div></div>
+      <div class="bar-row"><div class="nm">Merlininkazani<small>"50 saate iner"</small></div><div class="track"><div class="fill" style="width:80%;background:var(--neg)">~%80</div></div></div>
+      <div class="bar-row"><div class="nm">Reddit (TR/global)<small>tekel eleştirisi</small></div><div class="track"><div class="fill" style="width:74%;background:var(--neg)">~%74</div></div></div>
+      <div class="bar-row"><div class="nm">Technopat Sosyal<small>en dengeli</small></div><div class="track"><div class="fill" style="width:68%;background:var(--neg2)">~%68</div></div></div>
+      <div class="src" style="margin-top:8px"><span class="lbl">Kaynaklar</span>
+        <a href="https://www.sikayetvar.com/geforce-now-powered-by-game" target="_blank" rel="noopener">Şikayetvar</a>
+        <a href="https://shiftdelete.net/geforce-now-turkiyede-100-saat-siniri-donemi-basliyor" target="_blank" rel="noopener">ShiftDelete</a>
+        <a href="https://www.merlininkazani.com/nvidia-geforce-now-icin-100-saatlik-sinir-yolda-haber-131636" target="_blank" rel="noopener">Merlininkazani</a>
+        <a href="https://www.technopat.net/sosyal/konu/ucretli-aboneliklerde-aylik-100-saat-oturum-siniri-geliyor.3499859/" target="_blank" rel="noopener">Technopat Sosyal</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn" style="margin-top:22px">
+    <h4>⚠ Dikkat: en çok sesi çıkanlar yazıyor</h4>
+    <p>Bu veri <b>sessiz çoğunluğu</b> birebir yansıtmaz; memnun olmayan kullanıcı daha çok yorum yazar. NVIDIA'ya göre çoğunluk zaten 100 saatin altında. Yani %70 olumsuz oran <b>yorum yazan kitlenin</b> havasıdır, tüm abonelerin değil. Ayrıca mecra çok önemli: şikayet sitelerinde olumsuzluk neredeyse %100, forumlarda ~%68, YouTube'da ise daha dengeli, hatta servisi savunan yorumlar var. Yön doğru ama kesin yüzde temkinli okunmalı.</p>
+  </div>
+</section>
+
+<!-- THEMES -->
+<section class="wrap" id="temalar">
+  <h2 class="sec"><span class="ix">04</span> Hangi şikayet ne kadar konuşuluyor?</h2>
+  <p class="sec-sub">12 başlık, en çok konuşulandan aza doğru sıralı. Renkli etiket üç raporun ortak ağırlığını, küçük rozetler her raporun kendi ölçümünü gösterir. Her başlıkta, tıklayınca ilgili yoruma giden doğrulanmış bir alıntı var.</p>
+
+  <div class="legend">
+    <span><i style="background:var(--neg)"></i> Çok Yüksek</span>
+    <span><i style="background:var(--neg2)"></i> Yüksek</span>
+    <span><i style="background:var(--neu)"></i> Orta</span>
+    <span><i style="background:#5b6b7d"></i> Düşük</span>
+    <span><i style="background:var(--pos)"></i> Olumlu</span>
+  </div>
+
+  <div class="theme">
+    <div class="trow">
+      <div class="top"><span class="rank">1</span><span class="tname">Sınırsızdan geri adım / değer kaybı / örtülü zam</span><span class="band b5">Çok Yüksek</span></div>
+      <div class="tdesc">Fiyat aynı kalsa bile sınırsızdan 100 saate inmek, doğrudan hizmetin geriye gitmesi ve gizli zam olarak görülüyor. En yıkıcı başlık.</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r1">R1</span> <b>%13,0</b></span><span class="pill"><span class="tag-r tag-r2">R2</span> <b>%37,5</b></span><span class="pill"><span class="tag-r tag-r3">R3</span> <b>#1</b></span></div>
+      <div class="qmini">"Ben Ultimate 4080 paketini 1 seneliğine 300 TL'ye aldım. 100 saat olayını benim satın almamdan sonra pakete eklemeleri çok saçma; resmen kullanıcıyı kandırmak." <a href="https://www.technopat.net/2025/12/23/geforce-now-sure-siniri-basladi/#:~:text=Ben%20Ultimate%204080%20paketini%201,Devlet" target="_blank" rel="noopener">→ Technopat (yoruma git)</a></div>
+    </div>
+
+    <div class="trow">
+      <div class="top"><span class="rank">2</span><span class="tname">100 saat yetersiz / kısıtlama hissi</span><span class="band b5">Çok Yüksek</span></div>
+      <div class="tdesc">Aktif oyuncular tek bir RPG'nin (Cyberpunk, AC, Terraria) bile 100 saati aştığını, günde 5-6 saat oynayanın kotayı yarım ayda bitirdiğini söylüyor.</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r1">R1</span> <b>%16,8</b></span><span class="pill"><span class="tag-r tag-r2">R2</span> <b>%43,8</b></span><span class="pill"><span class="tag-r tag-r3">R3</span> <b>Yüksek</b></span></div>
+      <div class="qmini">"Bir ay 15 gün civarı oynadım, günde 5-6 saat oynuyordum; 250 saatten fazla oynamışım, 100 saat çok az." <a href="https://www.technopat.net/2025/12/23/geforce-now-sure-siniri-basladi/#:~:text=Eren%2026%20Aral%C4%B1k%202025" target="_blank" rel="noopener">→ Technopat (yoruma git)</a></div>
+    </div>
+
+    <div class="trow">
+      <div class="top"><span class="rank">3</span><span class="tname">Türkiye-global kıyası / donanım adaletsizliği</span><span class="band b4">Yüksek</span></div>
+      <div class="tdesc">Global kısıtlama anında geliyor ama TR sunucuları (eski GTX/T4, HDD, yavaş yükleme) global standardın gerisinde. "Çifte standart" algısı, en büyük öfke kaynaklarından.</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r1">R1</span> <b>%13,5</b></span><span class="pill"><span class="tag-r tag-r2">R2</span> <b>%18,8</b></span><span class="pill"><span class="tag-r tag-r3">R3</span> <b>Orta-Yüksek</b></span></div>
+      <div class="qmini">"Avrupa sunucularına geçtiğimden beri gençleştim resmen. Bizde dünyanın en dandik HDD'leri veriliyor, bir de süre sınırı getiriyorlar." <a href="https://www.technopat.net/sosyal/konu/ultimate-vs-performance.3920698/" target="_blank" rel="noopener">→ Technopat Sosyal</a></div>
+    </div>
+
+    <div class="trow">
+      <div class="top"><span class="rank">4</span><span class="tname">Rakiplere / kendi PC'sine kaçış sinyali</span><span class="band b4">Yüksek</span></div>
+      <div class="tdesc">Sınır gelince bulut servisinin finansal avantajı zayıflıyor; "uzun vadede sistem toplamak daha mantıklı" + Boosteroid'e geçiş niyeti.</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r1">R1</span> <b>%17,8</b></span><span class="pill"><span class="tag-r tag-r2">R2</span> <b>%25,0</b></span><span class="pill"><span class="tag-r tag-r3">R3</span> <b>Yüksek</b></span></div>
+      <div class="qmini">"Buna para vereceğime para biriktirir, donanım alırım… her yıl GeForce NOW'a vereceğin parayla kendi sistemini yükseltirsin." <a href="https://www.technopat.net/2025/12/23/geforce-now-sure-siniri-basladi/#:~:text=yavuztutcu%2023%20Aral%C4%B1k%202025" target="_blank" rel="noopener">→ Technopat (yoruma git)</a></div>
+    </div>
+
+    <div class="trow">
+      <div class="top"><span class="rank">5</span><span class="tname">Para verene sınır = adaletsizlik</span><span class="band b4">Yüksek</span></div>
+      <div class="tdesc">"Ücretli üyeyim, neden kısıtlanıyorum" mantığı. Ödeme yapan kullanıcıya getirilen tavanın haksız bulunması.</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r1">R1</span> <b>Yüksek</b></span><span class="pill"><span class="tag-r tag-r3">R3</span> <b>Yüksek</b></span></div>
+      <div class="qmini">"İnsanların o kadar para verip satın aldığı bir servise bu tarz bir sınırlama koyması büyük sorun." <a href="https://www.technopat.net/sosyal/konu/ucretli-aboneliklerde-aylik-100-saat-oturum-siniri-geliyor.3499859/" target="_blank" rel="noopener">→ Technopat Sosyal</a></div>
+    </div>
+
+    <div class="trow">
+      <div class="top"><span class="rank">6</span><span class="tname">Eski üye hakkına güvensizlik / kafa karışıklığı</span><span class="band b3">Orta</span></div>
+      <div class="tdesc">2027'ye kadar sınırsız hak "kesintisiz üyelik" şartına bağlı; kart limiti/ödeme aksaması durumunda hakkın kalıcı yanması korkusu. R2 küçük örneklemde bu temayı hiç görmedi.</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r1">R1</span> <b>%8,6</b></span><span class="pill"><span class="tag-r tag-r2">R2</span> <b>%0</b></span><span class="pill"><span class="tag-r tag-r3">R3</span> <b>Orta</b></span></div>
+      <div class="qmini">"Sadık kullanıcıları koruyorlar gibi ama 'kesintisiz devam' şartı büyük risk. Kart ödemesi bir gün aksasa hakkın yanacak." <a href="https://shiftdelete.net/geforce-now-turkiyede-100-saat-siniri-donemi-basliyor" target="_blank" rel="noopener">→ ShiftDelete yorumları</a></div>
+    </div>
+
+    <div class="trow">
+      <div class="top"><span class="rank">7</span><span class="tname">İptal / iade / Tüketici Hakem Heyeti</span><span class="band b3">Orta</span></div>
+      <div class="tdesc">Somut müşteri kaybı ve yasal adım. Satın aldıktan sonra kural değişmesine tepki olarak Tüketici Hakem Heyeti çağrıları + Şikayetvar'da otomatik yenileme/iade şikayetleri.</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r3">R3</span> <b>Orta</b></span><span class="pill">Şikayetvar <b>doğrulandı</b></span></div>
+      <div class="qmini">"Herkese tavsiyem e-Devlet üzerinden Tüketici Hakem Heyeti'ne başvurmalarıdır." <a href="https://www.technopat.net/2025/12/23/geforce-now-sure-siniri-basladi/#:~:text=Ben%20Ultimate%204080%20paketini%201,%C3%BCzerinden%20T%C3%BCketici%20Hakem%20Heyeti%E2%80%99ne%20ba%C5%9Fvurmalar%C4%B1d%C4%B1r" target="_blank" rel="noopener">→ Technopat (yoruma git)</a></div>
+    </div>
+
+    <div class="trow">
+      <div class="top"><span class="rank">8</span><span class="tname">Ek süre satın alma = para tuzağı</span><span class="band b3">Orta</span></div>
+      <div class="tdesc">Ayı çıkarabilmek için sürekli 15 saatlik ek paket almak zorunda kalma; servisin "her şey için ekstra para" düzenine dönüştüğü eleştirisi.</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r1">R1</span> <b>%4,9</b></span><span class="pill"><span class="tag-r tag-r3">R3</span> <b>Düşük-Orta</b></span></div>
+      <div class="qmini">"Aylık süreyi aşınca devam edebilmek için sürekli 15 saatlik ek paketler almak zorunda kalacağız; resmen para tuzağı." <a href="https://www.technopat.net/sosyal/konu/geforce-now-100-saat-kotasi-geliyor-iste-yeni-fiyatlar.4002301/" target="_blank" rel="noopener">→ Technopat Sosyal</a></div>
+    </div>
+
+    <div class="trow">
+      <div class="top"><span class="rank">9</span><span class="tname">Kayganlık / güvensizlik ("sınır daha da düşer")</span><span class="band b3">Orta</span></div>
+      <div class="tdesc">Giderek artan kısıtlama korkusu: bugün 100, yarın 50 saat. "Tepki göstermezsek daha da kısarlar" beklentisi, 2023'teki 200 saat olayından besleniyor.</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r3">R3</span> <b>Orta</b></span></div>
+      <div class="qmini">"Ne para hırsıymış. Bugün 100 saate sınırlarlar, yarına 50 saate düşer." <a href="https://www.merlininkazani.com/nvidia-geforce-now-icin-100-saatlik-sinir-yolda-haber-131636" target="_blank" rel="noopener">→ Merlininkazani yorumları</a></div>
+    </div>
+
+    <div class="trow">
+      <div class="top"><span class="rank">10</span><span class="tname">Soru / belirsizlik</span><span class="band b3">Orta</span></div>
+      <div class="tdesc">Düzenlemenin nasıl çalıştığını anlamaya çalışan kullanıcılar: süre takibi nerede, GAME+'a mı özel, devir nasıl hesaplanıyor.</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r1">R1</span> <b>%5,4</b></span><span class="pill"><span class="tag-r tag-r3">R3</span> <b>Orta</b></span></div>
+      <div class="qmini">"Bu durum sadece Game+ için mi geçerli? Yurtdışında var mı böyle bir kural?" <a href="https://www.technopat.net/sosyal/konu/ucretli-aboneliklerde-aylik-100-saat-oturum-siniri-geliyor.3499859/" target="_blank" rel="noopener">→ Technopat Sosyal</a></div>
+    </div>
+
+    <div class="trow">
+      <div class="top"><span class="rank">11</span><span class="tname">Süre bitince temel donanıma düşme memnuniyetsizliği</span><span class="band b2">Düşük-Orta</span></div>
+      <div class="tdesc">100 saat sonrası ücretli üyenin ücretsiz katmana (sıra bekleme, eski GPU, 30 dk oturum) düşürülmesi cezalandırma gibi algılanıyor.</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r1">R1</span> <b>%5,9</b></span></div>
+      <div class="qmini">"100 saat bitince seni ücretsiz üyelerle aynı temel donanım seviyesine düşürüyorlar. Kabul edilemez." <a href="https://www.reddit.com/r/GeForceNOW/comments/1j6t52e/100_hour_limit/?tl=tr" target="_blank" rel="noopener">→ r/GeForceNOW</a></div>
+    </div>
+
+    <div class="trow">
+      <div class="top"><span class="rank">12</span><span class="tname">15 saat devir yetersiz</span><span class="band b2">Düşük</span></div>
+      <div class="tdesc">Az oynanan ayda kalan saatin sadece 15'inin devri, "ödediğim sürenin silinmesi" olarak görülüyor. R2'de hiç görülmedi (örneklem).</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r1">R1</span> <b>%6,5</b></span><span class="pill"><span class="tag-r tag-r2">R2</span> <b>%0</b></span></div>
+      <div class="qmini">"Kullanmadığım 80 saatin sadece 15'i devrediyor, kalanı yanıyor. Parasını ödediğim saatin silinmesi adil değil." <a href="https://gameplus.com.tr/destek" target="_blank" rel="noopener">→ Düzenleme: GAME+ Destek</a></div>
+    </div>
+
+    <div class="trow" style="border-color:#1f5130">
+      <div class="top"><span class="rank" style="color:var(--pos)">+</span><span class="tname">Olumlu değerlendirme ("kullandığın kadar öde" / casual'a yeter)</span><span class="band bpos">Olumlu ~%10</span></div>
+      <div class="tdesc">Tutarlı ama küçük azınlık: günde 3 saatin altında oynayan çoğunluğa yettiği, aşırı kullananın hesabını herkesin ödememesinin adil olduğu, eski üye hakkının iyi bir jest olduğu görüşleri.</div>
+      <div class="tmeta"><span class="pill"><span class="tag-r tag-r1">R1</span> <b>%10,3</b></span><span class="pill"><span class="tag-r tag-r2">R2</span> <b>%6,3</b></span><span class="pill"><span class="tag-r tag-r3">R3</span> <b>~%10</b></span></div>
+      <div class="qmini">"Bana göre her yerde 'kullandığın kadar öde' mantığının işlemesi lazım; 1 saat kullanan ile 300 saat kullananın aynı parayı ödemesi büyük adaletsizlik." <a href="https://www.technopat.net/sosyal/konu/ucretli-aboneliklerde-aylik-100-saat-oturum-siniri-geliyor.3499859/" target="_blank" rel="noopener">→ Technopat Sosyal</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE WALL -->
+<section class="wrap" id="alintilar">
+  <h2 class="sec"><span class="ix">05</span> Gerçek kullanıcı yorumları</h2>
+  <p class="sec-sub">Birebir kullanıcı sözleri. Çoğu linkte <b>tıklayınca tam o yorumun olduğu yere iner</b> (Technopat yorumları). Aşağıdaki butonlarla olumlu/olumsuz diye süzebilirsin.</p>
+
+  <div class="qfilter">
+    <button class="qbtn active" data-f="all">Tümü</button>
+    <button class="qbtn" data-f="neg">● Olumsuz</button>
+    <button class="qbtn" data-f="neu">● Nötr / Karışık</button>
+    <button class="qbtn" data-f="pos">● Olumlu</button>
+  </div>
+
+  <div class="qwall">
+    <div class="quote q-neg" data-s="neg"><span class="s-flag f-neg">Olumsuz · gizli zam</span>
+      <div class="qt">"Ben Ultimate 4080 paketini 1 seneliğine 300 TL'ye aldım. 100 saat olayını benim satın almamdan sonra pakete eklemeleri çok saçma; resmen kullanıcıyı kandırmak."</div>
+      <div class="qmeta"><span class="who">Technopat · 23 Ara 2025</span><a class="qsrc" href="https://www.technopat.net/2025/12/23/geforce-now-sure-siniri-basladi/#:~:text=Ben%20Ultimate%204080%20paketini%201,Devlet" target="_blank" rel="noopener">yoruma git →</a></div>
+    </div>
+
+    <div class="quote q-neg" data-s="neg"><span class="s-flag f-neg">Olumsuz · 100 saat yetersiz</span>
+      <div class="qt">"Aylık 100 saat mi? Şaka galiba diyecektim, gerçekmiş. Hem bu kadar para vereceğim hem de kullanım süresi kota…"</div>
+      <div class="qmeta"><span class="who">Eşref · Technopat</span><a class="qsrc" href="https://www.technopat.net/2025/12/23/geforce-now-sure-siniri-basladi/#:~:text=E%C5%9Fref%2023%20Aral%C4%B1k%202025" target="_blank" rel="noopener">yoruma git →</a></div>
+    </div>
+
+    <div class="quote q-neg" data-s="neg"><span class="s-flag f-neg">Olumsuz · ağır oyuncu</span>
+      <div class="qt">"Bir ay 15 gün civarı oynadım, günde 5-6 saat oynuyordum; 250 saatten fazla oynamışım. 100 saat çok az, 1 ay için en az 200 saat olmalı."</div>
+      <div class="qmeta"><span class="who">Eren · Technopat</span><a class="qsrc" href="https://www.technopat.net/2025/12/23/geforce-now-sure-siniri-basladi/#:~:text=Eren%2026%20Aral%C4%B1k%202025" target="_blank" rel="noopener">yoruma git →</a></div>
+    </div>
+
+    <div class="quote q-neg" data-s="neg"><span class="s-flag f-neg">Olumsuz · sözünden dönme</span>
+      <div class="qt">"Hani Türkiye bundan etkilenmeyecekti! Yalan mıydı?"</div>
+      <div class="qmeta"><span class="who">seda · Technopat</span><a class="qsrc" href="https://www.technopat.net/2025/12/23/geforce-now-sure-siniri-basladi/#:~:text=seda%2023%20Aral%C4%B1k%202025" target="_blank" rel="noopener">yoruma git →</a></div>
+    </div>
+
+    <div class="quote q-neg" data-s="neg"><span class="s-flag f-neg">Olumsuz · daha da kısarlar</span>
+      <div class="qt">"Ne para hırsıymış. Bugün 100 saate sınırlarlar, yarına 50 saate düşer."</div>
+      <div class="qmeta"><span class="who">Merlininkazani</span><a class="qsrc" href="https://www.merlininkazani.com/nvidia-geforce-now-icin-100-saatlik-sinir-yolda-haber-131636" target="_blank" rel="noopener">kaynağa git →</a></div>
+    </div>
+
+    <div class="quote q-neg" data-s="neg"><span class="s-flag f-neg">Olumsuz · rakibe kayış</span>
+      <div class="qt">"Vallahi gider Boosteroid alırım, yıllık fiyatı 90 euro… hem oyun kütüphanesi daha geniş."</div>
+      <div class="qmeta"><span class="who">Ekşi Sözlük</span><a class="qsrc" href="https://eksisozluk.com/boosteroid--6850834" target="_blank" rel="noopener">kaynağa git →</a></div>
+    </div>
+
+    <div class="quote q-neg" data-s="neg"><span class="s-flag f-neg">Olumsuz · donanım adaletsizliği</span>
+      <div class="qt">"Avrupa sunucularına geçtiğimden beri gençleştim resmen. Bizde dünyanın en dandik HDD'leri veriliyor; Avrupa'da oyun saniyede açılırken bizde dakika alıyor, bir de süre sınırı."</div>
+      <div class="qmeta"><span class="who">Technopat Sosyal</span><a class="qsrc" href="https://www.technopat.net/sosyal/konu/ultimate-vs-performance.3920698/" target="_blank" rel="noopener">kaynağa git →</a></div>
+    </div>
+
+    <div class="quote q-neg" data-s="neg"><span class="s-flag f-neg">Olumsuz · iptal / iade</span>
+      <div class="qt">"Onayım, bilgim ve isteğim olmamasına rağmen kampanyasız fiyattan otomatik abonelik ücreti çekildi; iade talep ediyorum."</div>
+      <div class="qmeta"><span class="who">Şikayetvar</span><a class="qsrc" href="https://www.sikayetvar.com/geforce-now-powered-by-game/izin-almadan-otomatik-yenilenen-turkcell-gameplus-uyeligi-icin-1707-tl-cekim-iadesi-talebi" target="_blank" rel="noopener">şikayete git →</a></div>
+    </div>
+
+    <div class="quote q-neu" data-s="neu"><span class="s-flag f-neu">Nötr · koşullu kabul</span>
+      <div class="qt">"100 saat gelsin sorun değil ama o zaman sistem de Avrupa'daki gibi güncel olsun. Serverlar hemen 5080'e güncellenecek mi bari?"</div>
+      <div class="qmeta"><span class="who">Technopat</span><a class="qsrc" href="https://www.technopat.net/sosyal/konu/ucretli-aboneliklerde-aylik-100-saat-oturum-siniri-geliyor.3499859/" target="_blank" rel="noopener">kaynağa git →</a></div>
+    </div>
+
+    <div class="quote q-neu" data-s="neu"><span class="s-flag f-neu">Nötr · soru</span>
+      <div class="qt">"Bu durum sadece Game+ için mi geçerli? Yurtdışında var mı böyle bir kural? Detayları tam anlayamadık."</div>
+      <div class="qmeta"><span class="who">Technopat Sosyal</span><a class="qsrc" href="https://www.technopat.net/sosyal/konu/ucretli-aboneliklerde-aylik-100-saat-oturum-siniri-geliyor.3499859/" target="_blank" rel="noopener">kaynağa git →</a></div>
+    </div>
+
+    <div class="quote q-neu" data-s="neu"><span class="s-flag f-neu">Nötr · dengeleyici</span>
+      <div class="qt">"6 aylık üyeliğe ayda 400 TL veriyorum; o parayla hangi donanımı alabilirsin?" - donanım toplama önerisine karşı çıkan kullanıcı.</div>
+      <div class="qmeta"><span class="who">dilara · Technopat</span><a class="qsrc" href="https://www.technopat.net/2025/12/23/geforce-now-sure-siniri-basladi/#:~:text=dilara%20yavuztutcu%20%2024%20Aral%C4%B1k,2025" target="_blank" rel="noopener">yoruma git →</a></div>
+    </div>
+
+    <div class="quote q-pos" data-s="pos"><span class="s-flag f-pos">Olumlu · "kullandığın kadar öde"</span>
+      <div class="qt">"Bana göre her yerde 'kullandığın kadar öde' mantığının işlemesi lazım; 1 saat kullanan ile 300 saat kullananın aynı parayı ödemesi büyük adaletsizlik."</div>
+      <div class="qmeta"><span class="who">Technopat Sosyal</span><a class="qsrc" href="https://www.technopat.net/sosyal/konu/ucretli-aboneliklerde-aylik-100-saat-oturum-siniri-geliyor.3499859/" target="_blank" rel="noopener">kaynağa git →</a></div>
+    </div>
+
+    <div class="quote q-pos" data-s="pos"><span class="s-flag f-pos">Olumlu · değer algısı</span>
+      <div class="qt">"Aylık 110 TL ödüyorum, 15 senelik eski Mac'te oynuyorum; o kadar büyük parayı donanıma yatıracağıma bunu seçerim, hem Xbox oyunları da var."</div>
+      <div class="qmeta"><span class="who">Alp · Technopat · 25 Ara 2025</span><a class="qsrc" href="https://www.technopat.net/2025/12/23/geforce-now-sure-siniri-basladi/#:~:text=Alp%20O%C4%9Fuzhan%20%2025%20Aral%C4%B1k,2025" target="_blank" rel="noopener">yoruma git →</a></div>
+    </div>
+
+    <div class="quote q-pos" data-s="pos"><span class="s-flag f-pos">Olumlu · casual'a yeter</span>
+      <div class="qt">"Günde 3 saate tekabül ediyor, aslında çok az değil. Küçük bir kitle aşırı oynadığı için fiyatların genele yayılmaması adına mantıklı bir karar."</div>
+      <div class="qmeta"><span class="who">Technopat Sosyal</span><a class="qsrc" href="https://www.technopat.net/sosyal/konu/ucretli-aboneliklerde-aylik-100-saat-oturum-siniri-geliyor.3499859/" target="_blank" rel="noopener">kaynağa git →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- YOUTUBE -->
+<section class="wrap" id="youtube">
+  <h2 class="sec"><span class="ix">06</span> YouTube ve mecra farkı</h2>
+  <p class="sec-sub">Bu kez YouTube, DataForSEO ile Türkiye (tr) olarak ölçekli tarandı. Sonuç ilk turu doğruluyor: bu konuya özel viral bir Türkçe video yok; "100 saat" çoğunlukla haftalık oyun/teknoloji programlarının bir bölümünde geçiyor (örneğin Techolay Kısa Devre #52). Asıl YouTube nabzı, en üst sıradaki TR inceleme videosunun yorumlarında ve orada hava forumlara göre çok daha dengeli, hatta yer yer memnun.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Mecraya göre hava</h3>
+      <div class="ch-sub">Aynı konu, farklı yer, farklı ton.</div>
+      <div class="bar-row"><div class="nm">Şikayet siteleri<small>doğası gereği</small></div><div class="track"><div class="fill" style="width:100%;background:var(--neg)">~%100 olumsuz</div></div></div>
+      <div class="bar-row"><div class="nm">Forumlar<small>Technopat, DonanımHaber</small></div><div class="track"><div class="fill" style="width:68%;background:var(--neg2)">~%68 olumsuz</div></div></div>
+      <div class="bar-row"><div class="nm">YouTube<small>ölçüldü · daha dengeli</small></div><div class="track"><div class="fill" style="width:50%;background:var(--neu)">~%50 karışık</div></div></div>
+      <div class="callout" style="margin-top:14px"><p>En üst sıradaki TR inceleme videosunda (Garbarius, 55B izlenme) en çok beğenilen yorum <b>dengeli/olumlu</b> (231 beğeni): "arada bir oynayan için işlevsel, ama rekabetçi oyunlar için aklınızdan bile geçirmeyin." Yani "herkes kızgın" değil; kızgın olanlar daha çok şikayet sitelerinde toplanıyor.</p></div>
+    </div>
+
+    <div class="card">
+      <h3>YouTube'da ölçülen yorumlar</h3>
+      <div class="ch-sub">DataForSEO ile en üst sıradaki TR inceleme videosu (Garbarius) ve haber programlarından çekildi.</div>
+      <div class="qmini" style="border-left-color:var(--pos)">"Sonunda sponsorsuz bir video... Arada bir oynayan ve ortalama bir bilgisayara 25-30 bin TL bayılmak istemeyen için işlevsel. Ama rekabetçi oyunları aklınızdan geçirmeyin." <b>(231 beğeni)</b> <a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">→ video</a></div>
+      <div class="qmini" style="border-left-color:var(--pos)">"Ben memnunum, yükleme derdi yok, tak diye giriyor, akıcı bir oyun keyfi veriyor." <b>(Mayıs 2026, taze)</b> <a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">→ video</a></div>
+      <div class="qmini" style="border-left-color:var(--neg)">"4 yıl kullandım, bundan beter hizmet yok. 5070Ti sistem aldım, her yerden engelledim." <b>(95 beğeni · kaçış)</b> <a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">→ video</a></div>
+      <div class="src"><span class="lbl">Videolar</span>
+        <a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">Garbarius dürüst inceleme (55B izlenme, 1. sıra)</a>
+        <a href="https://www.youtube.com/watch?v=A744UCeRtWY" target="_blank" rel="noopener">Can Sungur (50B izlenme)</a>
+        <a href="https://www.youtube.com/watch?v=gZvtz5VyinE" target="_blank" rel="noopener">Techolay Kısa Devre #52</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUNCEL TEPKI 2026 -->
+<section class="wrap" id="guncel">
+  <h2 class="sec"><span class="ix">07</span> Güncel tepki: 2026'da ne diyorlar?</h2>
+  <p class="sec-sub">X'e giriş yapıldı, Ekşi'nin en yeni sayfaları (Mayıs-Haziran 2026) okundu; bu turda YouTube yorumları ve Reddit başlıkları da DataForSEO ile tarandı. Sonuç net: bu konuda yeni sosyal medya paylaşımı aslında az; asıl güncel öfke üç şeyde toplanıyor - fiyat, "satın aldıktan sonra hakkı yarıya indirdiler" ve Avrupa sunucusuna kaçış. En taze yorum 15 Haziran 2026, yani iki gün önce.</p>
+
+  <div class="grid3" style="margin-bottom:20px">
+    <div class="card" style="text-align:center"><div class="ch-sub" style="margin-bottom:8px">Fiyat şoku (yıllık, aynı hizmet)</div><div style="font-size:23px;font-weight:850"><span style="color:var(--muted)">1.200 TL</span> → <span style="color:var(--neg)">6.600 TL</span></div><div style="font-size:11.5px;color:var(--muted2);margin-top:6px">Ekşi · 11.05.2026</div></div>
+    <div class="card" style="text-align:center"><div class="ch-sub" style="margin-bottom:8px">Satın alınan hak yarıya indi</div><div style="font-size:23px;font-weight:850"><span style="color:var(--muted)">180 saat</span> → <span style="color:var(--neg)">100 saat</span></div><div style="font-size:11.5px;color:var(--muted2);margin-top:6px">599 TL'ye aldıktan sonra · Ekşi · 15.05.2026</div></div>
+    <div class="card" style="text-align:center"><div class="ch-sub" style="margin-bottom:8px">Güncel sosyal paylaşım hacmi</div><div style="font-size:23px;font-weight:850;color:var(--neu)">Düşük</div><div style="font-size:11.5px;color:var(--muted2);margin-top:6px">Öfke daha çok Ekşi, forum ve Şikayetvar'da</div></div>
+  </div>
+
+  <div class="callout warn">
+    <h4>🧾 Belgelenen söz ve dönüş</h4>
+    <p>Kasım 2024'te GAME+ resmi görselle "Global'de 1 Ocak 2025'te başlayacak süre limitini Türkiye'de uygulama planımız yok, oyun keyfinize <b>sınırsız</b> devam edebilirsiniz" dedi (X'te 311 bin görüntülenme). 18 ay sonra, 10 Haziran 2026'da sınır geldi. Güncel yorumların çoğu bu çelişkiye ve fiyata kızıyor.</p>
+  </div>
+
+  <div class="callout">
+    <p><b>Üstelik bu ilk dönüş değil.</b> Yurt dışındaki r/GeForceNOW topluluğu hem 2024'teki "uygulamayacağız" sözünü hem de 2026'daki dönüşü kendi başlıklarında belgelemiş. Dahası: GAME+ yaklaşık 3 yıl önce de aylık <b>200 saat</b> sınırı koymaya çalışmış, gelen tepki üzerine kararı geri almıştı. Yani 100 saat, geri alınan ikinci süre sınırı; güvensizliğin kökü de bu tekrar eden örüntü. <a href="https://www.reddit.com/r/GeForceNOW/comments/125qqdy/update_geforce_now_turkeygameplus_has_reversed/" target="_blank" rel="noopener">2023 geri adımı (Reddit) →</a></p>
+  </div>
+
+  <div class="xgrouplabel p">✓ Verilen söz - Kasım 2024</div>
+  <div class="grid2" style="margin-bottom:10px">
+    <div class="xcard promise">
+      <div class="xhead"><div class="xav">G+</div><div class="xnm">GeForce NOW · GAME+ <span class="v">✓</span><small>resmi açıklama görseli</small></div><div class="xdate">Kas 2024</div></div>
+      <div class="ximg">"NVIDIA GeForce NOW Global'de 1 Ocak 2025 itibarıyla geçerli olacak süre limiti uygulamasını GeForce NOW Türkiye olarak uygulama planımız bulunmamaktadır. Oyun keyfinize SINIRSIZ devam edebilirsiniz."</div>
+      <div class="xstats"><span>resmi görsel</span><a href="https://www.webtekno.com/aylik-100-saat-siniri-geforce-now-turkiye-aciklama-h151648.html" target="_blank" rel="noopener">haberde gör →</a></div>
+    </div>
+    <div class="xcard promise">
+      <div class="xhead"><div class="xav">O</div><div class="xnm">Orhun <span class="v">✓</span><small>@OrhunKayaalp</small></div><div class="xdate">8 Kas 2024</div></div>
+      <div class="xbody">"Taze taze GeForce NOW Türkiye ekibinden haber geldi. Aylık 100 saat sınırı Global'in kararı; Türkiye ekibi bu sınırı uygulamayacakmış. Türkiye'deki kullanıcılar olarak güzel dodgelamış olduk."</div>
+      <div class="xstats"><b>548</b> beğeni <b>107B</b> görüntülenme <a href="https://x.com/OrhunKayaalp" target="_blank" rel="noopener">X'te aç →</a></div>
+    </div>
+  </div>
+
+  <div class="xgrouplabel r">⚠ Bugünkü tepki - Mayıs/Haziran 2026</div>
+  <div style="columns:3;column-gap:18px">
+    <div class="xcard recent">
+      <div class="xhead"><div class="xav">e</div><div class="xnm">ekşi sözlük<small>geforce now başlığı</small></div><div class="xdate">15.05.2026</div></div>
+      <div class="xbody">"2 gün önce günlük 6 saat olan paketten 599 TL ödeyerek aldım. Şimdi mail gelmiş, aylık 100 saate düşürmüşler. Şaka gibi değil mi? 180 saatlik hakkımızın neredeyse yarısını elimizden almışlar, neymiş tüm dünyada böyleymiş. Kabul edilebilir değil."</div>
+      <div class="xstats"><span>satın alma sonrası</span><a href="https://eksisozluk.com/entry/183799018" target="_blank" rel="noopener">entry →</a></div>
+    </div>
+    <div class="xcard recent">
+      <div class="xhead"><div class="xav">e</div><div class="xnm">ekşi sözlük<small>fiyat</small></div><div class="xdate">11.05.2026</div></div>
+      <div class="xbody">"Geçen sene bugünlerde 12 aylık 1200 liraydı. Demin baktım, 6600 lira demişler aynı hizmete."</div>
+      <div class="xstats"><span>fiyat şoku</span><a href="https://eksisozluk.com/entry/183728453" target="_blank" rel="noopener">entry →</a></div>
+    </div>
+    <div class="xcard recent">
+      <div class="xhead"><div class="xav">e</div><div class="xnm">ekşi sözlük<small>en taze · boykot</small></div><div class="xdate">15.06.2026</div></div>
+      <div class="xbody">"TR'ye de 100 saat mevzusu geldi, daha bu şerefsizlere para kazandırmayın. Avrupa sunucusundan gidip performance paket aldım, yemin ederim arada uçurum var; bunların 2080'li sistemi bizim 4080'lerle nerdeyse kafa kafaya."</div>
+      <div class="xstats"><span>kaçış + boykot</span><a href="https://eksisozluk.com/entry/184432211" target="_blank" rel="noopener">entry →</a></div>
+    </div>
+    <div class="xcard recent">
+      <div class="xhead"><div class="xav">e</div><div class="xnm">ekşi sözlük<small>Avrupa sunucusu</small></div><div class="xdate">29.05.2026</div></div>
+      <div class="xbody">"Türkiye'de yaşıyor olsanız bile Avrupa sunucusundan global üyelik alıp kullanın; 5080 kart veriyor. İzmir'deyim, TR ultimate alıyordum ama 1000 mbit internetime rağmen sürekli paket kaybı veriyordu."</div>
+      <div class="xstats"><span>donanım farkı</span><a href="https://eksisozluk.com/entry/184077306" target="_blank" rel="noopener">entry →</a></div>
+    </div>
+    <div class="xcard recent">
+      <div class="xhead"><div class="xav">V</div><div class="xnm">Vibe Engineer <span class="v">✓</span><small>@vibeeeng</small></div><div class="xdate">14 Haz 2026</div></div>
+      <div class="xbody">"NVIDIA GeForce NOW artık aylık 20 dolar + 100 saat sınırlaması getiriyor. Bir geliştirici bedava ve sınırsız alternatifini yapmış: Steam Headless. Docker ile kendi PC'ni kişisel bulut sunucusuna çeviriyorsun."</div>
+      <div class="xstats"><b>70</b> beğeni <b>27B</b> görüntülenme <a href="https://x.com/vibeeeng" target="_blank" rel="noopener">X'te aç →</a></div>
+    </div>
+    <div class="xcard recent">
+      <div class="xhead"><div class="xav">e</div><div class="xnm">ekşi sözlük<small>satın alma gücü</small></div><div class="xdate">21.05.2026</div></div>
+      <div class="xbody">"Yaklaşık 3-4 yıldır oyun oynamamı sağlıyordu ama 500 küsür lira çok. GeForce üzerinden bile oyun oynayamayacak kadar fakirleştiğim gerçeğiyle yüzleşmem hoş olmadı."</div>
+      <div class="xstats"><span>uygun fiyat sığınağı</span><a href="https://eksisozluk.com/entry/183911174" target="_blank" rel="noopener">entry →</a></div>
+    </div>
+    <div class="xcard recent">
+      <div class="xhead"><div class="xav">D</div><div class="xnm">DonanımHaber<small>drowen · forum</small></div><div class="xdate">30.04.2026</div></div>
+      <div class="xbody">"İndirim haberi yok henüz, Ultimate pakete yıllık 12.000 TL istiyor; Boosteroid'ten devam ediyorum."</div>
+      <div class="xstats"><span>fiyat + Boosteroid'e geçiş</span><a href="https://forum.donanimhaber.com/nvidia-geforce-now-ana-konu--141926150-472" target="_blank" rel="noopener">foruma git →</a></div>
+    </div>
+    <div class="xcard" style="border-color:#5a4a14">
+      <div class="xhead"><div class="xav">D</div><div class="xnm">DonanımHaber<small>busterr · denge sesi</small></div><div class="xdate">12.06.2026</div></div>
+      <div class="xbody">"Ayda 100 saat oynayan işsizdir. Zamanında ben de öyleyken rekorum bir haftada 55 saatti; şimdi iş güç, evlilik derken 100 saat hayal."</div>
+      <div class="xstats"><span>"çalışana yeter" görüşü</span><a href="https://forum.donanimhaber.com/nvidia-geforce-now-ana-konu--141926150-472" target="_blank" rel="noopener">foruma git →</a></div>
+    </div>
+    <div class="xcard recent">
+      <div class="xhead"><div class="xav">R</div><div class="xnm">Reddit · r/GeForceNOW<small>"Gameplus bana bu maili attı"</small></div><div class="xdate">May 2026</div></div>
+      <div class="xbody">"Gameplus geçmişte de aylık 200 saat sınırı koymaya çalışmış, tepki gelince geri çekmişti, 'kullanıcıları dinledik' demişti. Şimdi yine deniyorlar."</div>
+      <div class="xstats"><span>yurt dışı topluluk da fark etti</span><a href="https://www.reddit.com/r/GeForceNOW/comments/1th5i13/gameplus_turkish_gfn_provider_just_sent_me_this/" target="_blank" rel="noopener">başlığa git →</a></div>
+    </div>
+    <div class="xcard recent">
+      <div class="xhead"><div class="xav">▶</div><div class="xnm">YouTube · Garbarius<small>yorum · kaçış</small></div><div class="xdate">2026</div></div>
+      <div class="xbody">"4 yıl kullandım, bundan beter hizmet yok. Çok şükür 5070Ti sistem aldım, her yerden engelledim. 2 yıl boyunca tüm sponsor paylaşımlarına da tepki yazdım."</div>
+      <div class="xstats"><b>95</b> beğeni <a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">videoda gör →</a></div>
+    </div>
+    <div class="xcard" style="border-color:#1d3a24">
+      <div class="xhead"><div class="xav">▶</div><div class="xnm">YouTube · Garbarius<small>yorum · denge sesi</small></div><div class="xdate">May 2026</div></div>
+      <div class="xbody">"Ben memnunum, yükleme derdi yok, tak diye giriyor, akıcı bir oyun keyfi veriyor." YouTube'da forumların aksine memnun sesler de var.</div>
+      <div class="xstats"><span>mecra değişince hava değişiyor</span><a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">videoda gör →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITORS -->
+<section class="wrap" id="rakip">
+  <h2 class="sec"><span class="ix">08</span> Rakipler ve kaçış sinyali</h2>
+  <p class="sec-sub">Kullanıcıların andığı alternatifler ve servisi bırakma niyeti. Güncel veride öne çıkan yeni kaçış yolu: aynı servisin Avrupa/Global sunucusuna geçmek - yani GAME+'tan kaçıp NVIDIA'da kalmak. Boosteroid de Türkiye tartışmalarında belirgin.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Anılma sıklığı &amp; kaçış</h3>
+      <div class="ch-sub">Göreli anılma (R1 oranları + R3 nitel ağırlık).</div>
+      <div class="comp">
+        <div class="comprow"><div class="cn">Kendi PC'sini topla<small>en güçlü kaçış anlatısı</small></div><div class="cbar"><i style="width:100%"></i></div><div class="cval">~%21 kaçış</div></div>
+        <div class="comprow" style="border-color:#5a4a14"><div class="cn">GFN Avrupa/Global üyeliği<small>GAME+'tan kaçış - aynı servis, AB sunucusu</small></div><div class="cbar"><i style="width:70%"></i></div><div class="cval" style="color:var(--neu)">güncelde artıyor</div></div>
+        <div class="comprow"><div class="cn">Boosteroid<small>#1 isimli bulut rakip</small></div><div class="cbar"><i style="width:54%"></i></div><div class="cval">~%11 anılma</div></div>
+        <div class="comprow"><div class="cn">Xbox Cloud / Game Pass<small>VPN, TR resmî yok</small></div><div class="cbar"><i style="width:41%"></i></div><div class="cval">~%9 anılma</div></div>
+        <div class="comprow"><div class="cn">Shadow / Luna / Vortex<small>geçmiş deneyim bağlamı</small></div><div class="cbar"><i style="width:14%"></i></div><div class="cval">Düşük</div></div>
+      </div>
+      <div class="callout" style="margin-top:16px"><p><b>Gitme niyeti ~1/3:</b> Olumsuz yorumların yaklaşık üçte biri net ayrılma sinyali (iptal ettim/edeceğim, boykot, geçtim) içeriyor - yani sadece şikayet değil, gerçek müşteri kaybı riski.</p></div>
+      <div class="src"><span class="lbl">Kaynaklar</span>
+        <a href="https://www.technopat.net/sosyal/konu/geforce-now-mi-boosteroid-mi.1571051/" target="_blank" rel="noopener">Technopat: GFN mi Boosteroid mi</a>
+        <a href="https://eksisozluk.com/geforce-now--5018387" target="_blank" rel="noopener">Ekşi: geforce now</a>
+      </div>
+    </div>
+
+    <div class="card" style="border-color:#3a2f0e">
+      <h3>🎯 Boosteroid mercek altında</h3>
+      <div class="ch-sub">Doğrulanmış rakip profili (Ekşi + Technopat karşılaştırma başlıkları).</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="display:flex;justify-content:space-between;padding:10px 13px;background:var(--bg2);border-radius:9px;font-size:13px"><span style="color:var(--muted)">Süre sınırı</span><b style="color:var(--pos)">Yok - sınırsız</b></div>
+        <div style="display:flex;justify-content:space-between;padding:10px 13px;background:var(--bg2);border-radius:9px;font-size:13px"><span style="color:var(--muted)">Fiyat</span><b>~4,16 €/ay (yıllık peşin)</b></div>
+        <div style="display:flex;justify-content:space-between;padding:10px 13px;background:var(--bg2);border-radius:9px;font-size:13px"><span style="color:var(--muted)">Kütüphane</span><b style="color:var(--pos)">2-3× geniş (GTA V, RDR2, FIFA)</b></div>
+        <div style="display:flex;justify-content:space-between;padding:10px 13px;background:var(--bg2);border-radius:9px;font-size:13px"><span style="color:var(--muted)">Zayıf yön (GAME+ avantajı)</span><b style="color:var(--neg)">TR sunucu yok · ~45ms</b></div>
+        <div style="display:flex;justify-content:space-between;padding:10px 13px;background:linear-gradient(90deg,var(--green-dim),transparent);border-radius:9px;font-size:13px"><span style="color:var(--muted)">GFN İstanbul gecikme</span><b style="color:var(--green2)">~8ms - net üstünlük</b></div>
+      </div>
+      <div class="src"><span class="lbl">Kaynaklar</span>
+        <a href="https://eksisozluk.com/boosteroid--6850834" target="_blank" rel="noopener">Ekşi: boosteroid</a>
+        <a href="https://www.technopat.net/sosyal/konu/geforce-now-vs-boosteroid.3313351/" target="_blank" rel="noopener">Technopat: GFN vs Boosteroid</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COST -->
+<section class="wrap" id="maliyet">
+  <h2 class="sec"><span class="ix">09</span> "Para tuzağı": sınırı aşınca ne kadar öder?</h2>
+  <p class="sec-sub">100 saati geçince sistem en yakın 15 saatlik pakete yuvarlıyor (Performance $2,99 / Ultimate $5,99). Aşağıdaki tahmini aylık tutarlar DonanımHaber'in hesabına dayanıyor ve "ek süre = para tuzağı" algısının somut karşılığı.</p>
+
+  <div class="cost-grid">
+    <div class="costcard"><div class="hrs">3 saat / gün</div><div class="mo">~91 saat / ay</div><div class="pf ok">Limit içinde</div><div class="pflab">ek ücret yok</div><div class="ult">Ultimate: değişmez</div></div>
+    <div class="costcard hot"><div class="hrs">4 saat / gün</div><div class="mo">~120 saat / ay</div><div class="pf">$15,97</div><div class="pflab">Performance / ay</div><div class="ult">Ultimate: $31,97</div></div>
+    <div class="costcard hot"><div class="hrs">5 saat / gün</div><div class="mo">~150 saat / ay</div><div class="pf">$21,95</div><div class="pflab">Performance / ay</div><div class="ult">Ultimate: $43,95</div></div>
+    <div class="costcard hot"><div class="hrs">10 saat / gün</div><div class="mo">~300 saat / ay</div><div class="pf">$51,85</div><div class="pflab">Performance / ay</div><div class="ult">Ultimate: $103,85</div></div>
+  </div>
+  <div class="src"><span class="lbl">Kaynaklar</span>
+    <a href="https://www.donanimhaber.com/geforce-now-da-100-saat-siniri-basliyor-kim-ne-kadar-odeyecek--199984" target="_blank" rel="noopener">DonanımHaber: kim ne kadar ödeyecek</a>
+    <a href="https://www.technopat.net/sosyal/konu/geforce-now-100-saat-kotasi-geliyor-iste-yeni-fiyatlar.4002301/" target="_blank" rel="noopener">Technopat: yeni fiyatlar</a>
+    <span class="vbadge v-ok">rakamlar doğrulandı</span>
+  </div>
+  <div class="callout warn" style="margin-top:18px"><p>Önemli ayrıntı: 100 saati <b>1 saat</b> bile geçmek, tam 15 saatlik paket ücretini tetikliyor. Günde 4 saat oynayan ortalama bir kullanıcının aylık maliyeti Performance'ta ~%60 artıyor. "Gizli zam" algısının matematiği tam da burada.</p></div>
+</section>
+
+<!-- RECENT COMPLAINTS -->
+<section class="wrap" id="sikayet">
+  <h2 class="sec"><span class="ix">10</span> Yakın tarihli şikayetler (Mayıs-Haziran 2026)</h2>
+  <p class="sec-sub">100 saat kuralı 10 Haziran'da başlarken Şikayetvar'da asıl yığılma süre sınırında değil, <b>izinsiz otomatik yenileme ve iade reddinde</b>. Üyeliğini iptal ettiğini sanan kullanıcının kartından tekrar para çekilmesi, 100 saat geçişiyle birleşince "kandırıldım" algısını büyütüyor. Hepsi gerçek ve güncel.</p>
+
+  <div class="callout warn">
+    <h4>🔁 Tekrar eden kalıp: 3.354 TL</h4>
+    <p>Birden çok kullanıcı, <b>iptal ettiğini sandığı</b> 6 aylık Performance paketinden <b>3.354 TL</b> (Ultimate'ta 6.594 TL) yeniden çekildiğini, iade isteğinin geç ya da hiç karşılanmadığını yazıyor. Aynı tutarın tekrar etmesi, bunun tek tük değil sistemli bir sürtünme olduğunu gösteriyor.</p>
+  </div>
+
+  <div class="tbl-wrap" style="margin-top:18px">
+    <table class="src-tbl">
+      <thead><tr><th>Tarih</th><th>Şikayet</th><th>Konu</th><th>Takip</th><th>Link</th></tr></thead>
+      <tbody>
+        <tr><td class="med">8 Haz 2026</td><td>Unutulan iptal yüzünden 3.354 TL çekildi, iade talebi</td><td><span class="sent-dot d-neg"><i></i>İade</span></td><td>13</td><td><a class="tl-link" href="https://www.sikayetvar.com/geforce-now-powered-by-game/unutulan-iptal-nedeniyle-cekilen-3354-tlnin-iadesi-talebi" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr><td class="med">7 Haz 2026</td><td>Ultimate paketi kullanılamadı, tam iade ve destek talebi</td><td><span class="sent-dot d-neg"><i></i>İade</span></td><td>25</td><td><a class="tl-link" href="https://www.sikayetvar.com/geforce-now-powered-by-game/geforce-now-aboneligi-kullanilamadi-tam-iade-ve-destek-talebi" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr><td class="med">6 Haz 2026</td><td>30 Mayıs'ta onayım olmadan 3.354 TL çekildi, iptal + iade</td><td><span class="sent-dot d-neg"><i></i>Yetkisiz çekim</span></td><td>13</td><td><a class="tl-link" href="https://www.sikayetvar.com/geforce-now-powered-by-game" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr><td class="med">5 Haz 2026</td><td>5 gün içinde kullanılmayan Performance paketi iadesi reddedildi</td><td><span class="sent-dot d-neg"><i></i>İade reddi</span></td><td>28</td><td><a class="tl-link" href="https://www.sikayetvar.com/geforce-now-powered-by-game" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr><td class="med">2 Haz 2026</td><td>İptal sonrası yetkisiz 6.594 TL çekim (Ultimate 6 aylık)</td><td><span class="sent-dot d-neg"><i></i>Yetkisiz çekim</span></td><td>51</td><td><a class="tl-link" href="https://www.sikayetvar.com/geforce-now-powered-by-game" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr><td class="med">27 May 2026</td><td>İzni olmadan otomatik yenileme ve 3.354 TL iade talebi</td><td><span class="sent-dot d-neg"><i></i>Yetkisiz çekim</span></td><td>239</td><td><a class="tl-link" href="https://www.sikayetvar.com/geforce-now-powered-by-game" target="_blank" rel="noopener">Aç →</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="src"><span class="lbl">Kaynak</span><a href="https://www.sikayetvar.com/geforce-now-powered-by-game" target="_blank" rel="noopener">Şikayetvar - GeForce NOW powered by GAME+</a><span class="vbadge v-ok">güncel, doğrulandı</span></div>
+</section>
+
+<!-- DEMANDS + ACTIONS -->
+<section class="wrap" id="talepler">
+  <h2 class="sec"><span class="ix">11</span> Talepler ve yapılabilecekler</h2>
+  <p class="sec-sub">Üstte: kullanıcıların açıkça istedikleri (en sık istenenden aza). Altta: GAME+/Turkcell için öneriler - iletişim, ürün ve müşteri deneyimi başlıklarında.</p>
+
+  <div style="margin-bottom:26px">
+    <div class="dem">
+      <div class="demrow"><span class="dn">1</span><div class="dt">Sınırı kaldır ya da 200 saate çıkar<small>"200 saat makul ama 100 kesinlikle değil" - en sık talep</small></div><div class="freqtag fr-h">Yüksek</div></div>
+      <div class="demrow"><span class="dn">2</span><div class="dt">Sınır gelecekse donanımı yükselt + değer ver<small>TR sunucularında SSD/RTX 5080; sınırın "karşılığı" beklentisi</small></div><div class="freqtag fr-h">Yüksek</div></div>
+      <div class="demrow"><span class="dn">3</span><div class="dt">Eski üye hakkında ödeme toleransı<small>Kart/ödeme aksarsa hak yanmasın - "7 günlük kurtarma süresi" önerisi</small></div><div class="freqtag fr-m">Orta</div></div>
+      <div class="demrow"><span class="dn">4</span><div class="dt">15 saat devri 30-50 saate çıkar<small>"Ödediğim saatin silinmesi adil değil"</small></div><div class="freqtag fr-m">Orta</div></div>
+      <div class="demrow"><span class="dn">5</span><div class="dt">Şeffaf süre takibi + önceden bilgilendirme<small>Uygulama içi "kalan saat" göstergesi, net SSS</small></div><div class="freqtag fr-m">Orta</div></div>
+      <div class="demrow"><span class="dn">6</span><div class="dt">Suistimal edeni banla, geneli cezalandırma<small>"O hesapları banlayın" - hedefli yaptırım talebi</small></div><div class="freqtag fr-m">Orta</div></div>
+      <div class="demrow"><span class="dn">7</span><div class="dt">Akıllı AFK / otomatik kapanma koruması<small>Oyun arkada açık unutulunca kota erimesin</small></div><div class="freqtag fr-l">Düşük</div></div>
+    </div>
+  </div>
+
+  <div class="act">
+    <div class="actcol">
+      <h4>📣 İletişim ve algı</h4>
+      <div class="k">En yıkıcı bulgu: "gizli zam / kullanıcıyı kandırma" + sözünden dönme.</div>
+      <ul>
+        <li><b>Sözünden dönüşü açıkla:</b> "Uygulamayacağız" demiştiniz; neden değiştiğini (sunucu kapasitesi, yapay zeka kaynak rekabeti) net ve tutarlı anlat.</li>
+        <li><b>Eski üye hakkını öne çıkar:</b> Mevcut ücretli abonelere (özellikle yıllık) haklarının 10 Haz 2027'ye dek korunduğunu SMS/e-posta/uygulama içi tek mesajla duyur.</li>
+        <li><b>"Kesintisiz devam" şartını sadeleştir:</b> İptal/dondurmanın hakkı yakacağını basit bir görselle anlat; insanlar farkında olmadan hakkını kaybetmesin.</li>
+        <li><b>~%94 etkilenmiyor</b> verisi kullanılabilir ama tek başına yetmez - tepki rakamsal değil, "sınırsız sözü"nün kaybıyla ilgili.</li>
+      </ul>
+    </div>
+    <div class="actcol urun">
+      <h4>🛠 Ürün ve fiyat</h4>
+      <div class="k">En ikna edici hamle: "sınır koyuyorsan karşılığında değer ver".</div>
+      <ul>
+        <li><b>Görünür donanım yükseltmesi:</b> Türkiye sunucularının güçlendirilmesi, 100 saatin kabul görmesini doğrudan artırır (en sık ikinci talep).</li>
+        <li><b>TL bazlı, şeffaf ek süre:</b> "Para tuzağı" algısını kırmak için yerel fiyat ve daha küçük paketler (ör. 5 saatlik "can suyu").</li>
+        <li><b>Devirde esneklik:</b> 15 saat devri "süre biriktirme" olarak 30 saate çıkar - "param yanıyor" algısını kır.</li>
+        <li><b>Hedefli yaptırım:</b> Aşırı kötüye kullananı engelle; genel sınırı bundan ayrı anlat.</li>
+      </ul>
+    </div>
+    <div class="actcol cx">
+      <h4>💬 Müşteri deneyimi</h4>
+      <div class="k">Güncel şikayetlerin özü: iptal/iade + izinsiz otomatik yenileme (Mayıs-Haziran 2026).</div>
+      <ul>
+        <li><b>İptal/iade sürtünmesini hemen gider:</b> 10 Haziran çevresinde "izinsiz yenileme + 3.354 TL çekim" şikayetleri yığıldı; bu, 100 saat tepkisini büyüten asıl yara. İptali tek tıkla, iadeyi hızlı yap.</li>
+        <li><b>Para çekmeden önce açık onay:</b> Kullanıcı "kabul ediyorum" demeden yenileme yapma; otomatik yenilemeyi şeffaf ve kolay iptal edilebilir kıl.</li>
+        <li><b>"Kalan süre" göstergesi:</b> "Oynama Süresi" ekranını Türkçe ve görünür yap - "bitince ne olacak" belirsizliğini azalt.</li>
+        <li><b>Boosteroid kayışını izle:</b> Rakibin "sınırsız + geniş kütüphane + ~8$/ay" cazibesine karşı Türkiye'deki düşük gecikme üstünlüğünü (8ms / 45ms) ve eski üye hakkını vurgula.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCE TABLE -->
+<section class="wrap" id="kaynaklar">
+  <h2 class="sec"><span class="ix">12</span> Tüm kaynaklar</h2>
+  <p class="sec-sub">Bu raporda kullanılan bütün kaynaklar. Ara, mecraya veya tona göre süz, her satırdan kaynağa git. Doğrulama durumu açıkça işaretli.</p>
+
+  <div class="tbl-tools">
+    <input type="text" id="srcSearch" placeholder="🔍 Kaynaklarda ara (mecra, not, tema)…">
+    <select id="srcSent">
+      <option value="all">Tüm tonlar</option>
+      <option value="neg">Olumsuz</option>
+      <option value="neu">Nötr / Karışık</option>
+      <option value="info">Bilgi / Resmî</option>
+    </select>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="src-tbl" id="srcTable">
+      <thead><tr><th>Mecra</th><th>Tür</th><th>Tarih</th><th>Tepki tonu</th><th>Kısa not</th><th>Link</th></tr></thead>
+      <tbody>
+        <tr data-s="info"><td class="med">GAME+ Destek</td><td>Resmî SSS</td><td>2026</td><td><span class="sent-dot d-info"><i></i>Bilgi</span></td><td>Kural metni: 100 saat, 15 saat devir, 2027 eski üye hakkı <span class="vbadge v-ok">doğrulandı</span></td><td><a class="tl-link" href="https://gameplus.com.tr/destek" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="info"><td class="med">GAME+ Blog</td><td>Duyuru</td><td>8 Haz 2026</td><td><span class="sent-dot d-info"><i></i>Bilgi</span></td><td>"Global Düzen Türkiye'ye Geliyor" <span class="vbadge v-part">URL teyit edilemedi</span></td><td><a class="tl-link" href="https://gameplus.com.tr/blog/geforce-now-da-oyun-suresi-degisiyor-global-duzen-turkiye-ye-geliyor" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Technopat</td><td>Haber + yorum</td><td>23 Ara 2025</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>"Kullanıcıyı kandırmak", THK başvuru çağrısı <span class="vbadge v-ok">alıntılar doğrulandı</span></td><td><a class="tl-link" href="https://www.technopat.net/2025/12/23/geforce-now-sure-siniri-basladi/" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neu"><td class="med">Technopat Sosyal</td><td>Forum</td><td>2024-25</td><td><span class="sent-dot d-neu"><i></i>Karışık</span></td><td>En zengin tartışma; olumlu "kullandığın kadar öde" görüşü burada</td><td><a class="tl-link" href="https://www.technopat.net/sosyal/konu/ucretli-aboneliklerde-aylik-100-saat-oturum-siniri-geliyor.3499859/" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Technopat Sosyal</td><td>Forum</td><td>22 Ara 2025</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>"100 saat kotası: yeni fiyatlar" - maliyet projeksiyonu</td><td><a class="tl-link" href="https://www.technopat.net/sosyal/konu/geforce-now-100-saat-kotasi-geliyor-iste-yeni-fiyatlar.4002301/" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Technopat</td><td>Haber</td><td>28 Mar 2023</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>2023 "200 saat" girişimi - kayganlık algısının kökü</td><td><a class="tl-link" href="https://www.technopat.net/2023/03/28/geforce-now-turkiye-hizmetine-200-saat-siniri-geldi/" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">ShiftDelete.Net</td><td>Haber + yorum</td><td>Haz 2026</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>TR yürürlük teyidi; iptal/boykot sinyalleri</td><td><a class="tl-link" href="https://shiftdelete.net/geforce-now-turkiyede-100-saat-siniri-donemi-basliyor" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Ekşi Sözlük</td><td>Sözlük</td><td>Muhtelif</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>Boosteroid'e kayış, Turkcell güvensizliği</td><td><a class="tl-link" href="https://eksisozluk.com/geforce-now--5018387" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neu"><td class="med">Ekşi Sözlük</td><td>Sözlük</td><td>Muhtelif</td><td><span class="sent-dot d-neu"><i></i>Karışık</span></td><td>Boosteroid alternatif karşılaştırması (sınırsız, geniş kütüphane)</td><td><a class="tl-link" href="https://eksisozluk.com/boosteroid--6850834" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Merlininkazani</td><td>Haber + yorum</td><td>29 Ara 2025</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>"Yarına 50 saate düşer", iade talebi</td><td><a class="tl-link" href="https://www.merlininkazani.com/nvidia-geforce-now-icin-100-saatlik-sinir-yolda-haber-131636" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Şikayetvar</td><td>Şikayet</td><td>2025</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>Yetkisiz otomatik yenileme, iade talepleri (1707/3417 TL) <span class="vbadge v-ok">doğrulandı</span></td><td><a class="tl-link" href="https://www.sikayetvar.com/geforce-now-powered-by-game" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="info"><td class="med">DonanımHaber</td><td>Haber</td><td>Ara 2025</td><td><span class="sent-dot d-info"><i></i>Bilgi</span></td><td>Maliyet kırılımı: kim ne kadar ödeyecek <span class="vbadge v-ok">rakamlar doğrulandı</span></td><td><a class="tl-link" href="https://www.donanimhaber.com/geforce-now-da-100-saat-siniri-basliyor-kim-ne-kadar-odeyecek--199984" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="info"><td class="med">Webtekno</td><td>Haber</td><td>2024</td><td><span class="sent-dot d-info"><i></i>Bilgi</span></td><td>GAME+'ın "uygulamayacağız" açıklaması (sözünden dönme bağlamı)</td><td><a class="tl-link" href="https://www.webtekno.com/aylik-100-saat-siniri-geforce-now-turkiye-aciklama-h151648.html" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="info"><td class="med">Log.com.tr</td><td>Haber</td><td>2024</td><td><span class="sent-dot d-info"><i></i>Bilgi</span></td><td>"Türkiye'de 100 saatlik limite sahip olmayacak" - sözünden dönme kanıtı</td><td><a class="tl-link" href="https://www.log.com.tr/geforce-now-game-turkiyede-100-saatlik-limite-sahip-olmayacak-iddiaya-gore-ultimate-cok-yakinda-kullanima-sunulacak/" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="info"><td class="med">NVIDIA Blog</td><td>Kurumsal</td><td>Kas 2024</td><td><span class="sent-dot d-info"><i></i>Bilgi</span></td><td>Global 100 saat duyurusu, ~%94 etkilenmez</td><td><a class="tl-link" href="https://blogs.nvidia.com/blog/geforce-now-thursday-performance-membership/" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="info"><td class="med">TGRT Haber</td><td>Haber</td><td>2026</td><td><span class="sent-dot d-info"><i></i>Bilgi</span></td><td>"Eski abonelerin akıbeti" - eski üye hakkı detayı</td><td><a class="tl-link" href="https://www.tgrthaber.com/teknoloji/geforce-nowda-100-saat-donemi-basliyor-eski-abonelerin-akibeti-belli-oldu-3272128" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Reddit r/GeForceNOW</td><td>Global tartışma</td><td>2024</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>Global ilk tepkiler, alternatif arayışı</td><td><a class="tl-link" href="https://www.reddit.com/r/GeForceNOW/comments/1heaozn/only_100_hours_per_month_playtime_on_geforce_now/" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Reddit r/GeForceNOW (güncel)</td><td>Global tartışma</td><td>May 2026</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>"Gameplus bana bu maili attı": TR'de 100 saat sınırı; yurt dışı topluluk da fark etti, 200 saat geçmişini hatırlattı <span class="vbadge v-ok">Google ile bulundu</span></td><td><a class="tl-link" href="https://www.reddit.com/r/GeForceNOW/comments/1th5i13/gameplus_turkish_gfn_provider_just_sent_me_this/" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="info"><td class="med">Reddit r/GeForceNOW</td><td>Global tartışma</td><td>2023</td><td><span class="sent-dot d-info"><i></i>Bilgi</span></td><td>GAME+'ın 2023'te 200 saat sınırını koyup tepki üzerine geri çekmesi (geri alınan ilk süre sınırı) <span class="vbadge v-ok">Google ile bulundu</span></td><td><a class="tl-link" href="https://www.reddit.com/r/GeForceNOW/comments/125qqdy/update_geforce_now_turkeygameplus_has_reversed/" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Reddit r/veYakinEvren</td><td>Tartışma</td><td>2026</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>R1'in ana TR kaynağı <span class="vbadge v-no">doğrulanamadı</span> - kesin sayılarına güvenilmedi</td><td><a class="tl-link" href="https://www.reddit.com/r/veYakinEvren/" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neu"><td class="med">YouTube · Can Sungur</td><td>Video + yorum</td><td>2024-25</td><td><span class="sent-dot d-neu"><i></i>Karışık</span></td><td>50B izlenme, 171 yorum; en beğenilen yorum GFN'i savunuyor (151 beğeni) <span class="vbadge v-ok">Chrome ile okundu</span></td><td><a class="tl-link" href="https://www.youtube.com/watch?v=A744UCeRtWY" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neu"><td class="med">YouTube · Techolay</td><td>Video + yorum</td><td>5 ay önce</td><td><span class="sent-dot d-neu"><i></i>Karışık</span></td><td>Kısa Devre #52'de 100 saat bölümü; yorumlar çoğunlukla başka konularda</td><td><a class="tl-link" href="https://www.youtube.com/watch?v=gZvtz5VyinE" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neu"><td class="med">YouTube · Garbarius</td><td>Video + yorum</td><td>Eki 2025 (yorumlar Haz 2026)</td><td><span class="sent-dot d-neu"><i></i>Karışık</span></td><td>"Gameplus geforce now" aramasında 1. sıra (55B izlenme); en beğenilen yorum dengeli (231 beğeni), taze yorumlarda memnun sesler de var <span class="vbadge v-ok">DataForSEO ile çekildi</span></td><td><a class="tl-link" href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neu"><td class="med">Techolay Sosyal</td><td>Forum</td><td>2024-25</td><td><span class="sent-dot d-neu"><i></i>Karışık</span></td><td>"100 saat sınırı geliyor" forum başlığı</td><td><a class="tl-link" href="https://techolay.net/sosyal/konu/geforce-now-icin-aylik-100-saat-siniri-geliyor.66095/" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Evrensel</td><td>Haber</td><td>2024</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>TR fiyatı ~$10/ay, Avrupa-ABD'de ~$5; fiyat adaletsizliği tepkisi</td><td><a class="tl-link" href="https://www.evrensel.net/haber/427483/avrupa-ve-abdde-yaklasik-5-dolar-olan-geforce-now-uyeligi-turkiyede-10-dolar" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Şikayetvar (güncel)</td><td>Şikayet</td><td>May-Haz 2026</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>Yetkisiz otomatik yenileme/iade kümesi (3.354 / 6.594 TL) <span class="vbadge v-ok">güncel</span></td><td><a class="tl-link" href="https://www.sikayetvar.com/geforce-now-powered-by-game/unutulan-iptal-nedeniyle-cekilen-3354-tlnin-iadesi-talebi" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">X / Twitter</td><td>Sosyal</td><td>Kas 2024 - Haz 2026</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>"Uygulamayacağız" sözü + dönüşü ve güncel tepki <span class="vbadge v-ok">giriş yapılıp tarandı</span></td><td><a class="tl-link" href="https://x.com/search?q=geforce%20now%20100%20saat&f=live" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">Ekşi Sözlük (güncel)</td><td>Sözlük</td><td>May-Haz 2026</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>En yeni sayfa: fiyat şoku (1.200→6.600), 180→100 saat, Avrupa'ya kaçış <span class="vbadge v-ok">15 Haz 2026</span></td><td><a class="tl-link" href="https://eksisozluk.com/geforce-now--5018387?p=251" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="info"><td class="med">teknolojioku</td><td>Haber</td><td>2026</td><td><span class="sent-dot d-info"><i></i>Bilgi</span></td><td>TR'de 100 saat başlıyor; iptal/dondurma sonrası limite dahil olma</td><td><a class="tl-link" href="https://www.teknolojioku.com/oyun/nvidia-geforce-now-turkiyede-100-saat-oyun-siniri-basliyor-6a074e1e5040410f53091932" target="_blank" rel="noopener">Aç →</a></td></tr>
+        <tr data-s="neg"><td class="med">DonanımHaber Forum (güncel)</td><td>Forum</td><td>Nis-Haz 2026</td><td><span class="sent-dot d-neg"><i></i>Olumsuz</span></td><td>Ana konu s.472: 12.000 TL Ultimate, Boosteroid'e geçiş, "çalışana 100 saat yeter" <span class="vbadge v-ok">12 Haz 2026</span></td><td><a class="tl-link" href="https://forum.donanimhaber.com/nvidia-geforce-now-ana-konu--141926150-472" target="_blank" rel="noopener">Aç →</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="noResult" style="display:none;text-align:center;color:var(--muted);padding:24px;font-size:13px">Eşleşen kaynak bulunamadı.</div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="wrap foot" id="foot-anchor">
+  <div class="disc">
+    <h4>Sınırlar ve güvenilirlik notu</h4>
+    <ul>
+      <li><b>Kimi yansıtıyor:</b> Bu veri yorum yazan kitleyi yansıtır, sessiz çoğunluğu değil. Yüzdeler yön gösterir, kesin ölçüm değildir.</li>
+      <li><b>Üç rapor birleştirildi:</b> R1 (185 yorum) doğrulanamayan kesin sayılar içerdiği için sadece tema düzeyinde kullanıldı; sayısal omurga, doğrulanan R3 + R2 alıntılarına dayandırıldı.</li>
+      <li><b>Genişletme:</b> X/Twitter'a giriş yapılınca tarandı (söz ve dönüş belgelendi); Ekşi ve DonanımHaber forumunun en yeni sayfaları 15 Haz 2026'ya kadar okundu; Şikayetvar'ın güncel şikayetleri eklendi. Bu son turda YouTube, DataForSEO ile Türkiye (tr) olarak ölçekli tarandı; en üst sıradaki TR inceleme videosunun (Garbarius) yorumları Haziran 2026'ya kadar çekildi. Reddit doğrudan açılamadı (sayfa 403 ile engelliyor), ama Google üzerinden gerçek başlıklar bulundu: yurt dışı topluluk hem sözü hem dönüşü belgelemiş, ayrıca 2023'teki 200 saat geri adımı ortaya çıktı. Instagram ve Discord kapalı kaldı.</li>
+      <li><b>Güncellik bulgusu:</b> Haziran 2026'da bu konuda yeni sosyal medya paylaşımı düşük hacimli; asıl taze öfke Ekşi ve Şikayetvar'da, fiyat ve faturalandırma ekseninde yoğunlaşıyor. YouTube'da ise konu az; en üst inceleme videosunun yorumlarında dengeli, hatta memnun sesler baskın.</li>
+      <li><b>Doğrulama:</b> Dünya geneli gerçekler, Technopat/Şikayetvar/DonanımHaber alıntı ve rakamları bağımsız teyit edildi. GAME+ blog adresi bağımsız bulunamadı; kuralın içeriği gameplus.com.tr/destek üzerinden doğrulandı. Hiçbir sayı veya alıntı uydurulmadı.</li>
+      <li><b>Zamanlama:</b> 10 Haziran 2026 başlangıcı çok yeni; ilk tepkiler hep daha olumsuzdur, ilerleyen aylarda normalleşme izlenmelidir.</li>
+    </ul>
+  </div>
+  <p style="margin-top:18px">GeForce NOW 100 Saat Sınırı · Türkiye Kullanıcı Algısı Sosyal Dinleme Panosu · Güncelleme: 17 Haziran 2026 · 3 yapay zeka araştırması doğrulanıp birleştirildi; YouTube (DataForSEO), X/Twitter, Ekşi, Reddit (Google üzerinden) ve güncel şikayetlerle genişletildi.</p>
+</footer>
+
+<button id="themeToggle" class="theme-toggle" type="button" aria-label="Açık/Koyu tema değiştir">☀️ Açık mod</button>
+
+<script>
+// Quote wall filter
+document.querySelectorAll('.qbtn').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.qbtn').forEach(function(x){x.classList.remove('active')});
+    b.classList.add('active');
+    var f=b.dataset.f;
+    document.querySelectorAll('.quote').forEach(function(q){
+      q.style.display=(f==='all'||q.dataset.s===f)?'':'none';
+    });
+  });
+});
+
+// Source table search + sentiment filter
+var search=document.getElementById('srcSearch'), sent=document.getElementById('srcSent');
+function filterTbl(){
+  var q=(search.value||'').toLowerCase(), s=sent.value, vis=0;
+  document.querySelectorAll('#srcTable tbody tr').forEach(function(tr){
+    var okQ=!q||tr.innerText.toLowerCase().indexOf(q)>-1;
+    var okS=(s==='all')||tr.dataset.s===s;
+    var show=okQ&&okS; tr.style.display=show?'':'none'; if(show)vis++;
+  });
+  document.getElementById('noResult').style.display=vis?'none':'block';
+}
+if(search) search.addEventListener('input',filterTbl);
+if(sent) sent.addEventListener('change',filterTbl);
+
+// Active nav highlight on scroll
+var navlinks=Array.prototype.slice.call(document.querySelectorAll('.nav a'));
+if('IntersectionObserver' in window){
+  var navObs=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        var id=e.target.id;
+        navlinks.forEach(function(a){
+          var on=a.getAttribute('href')==='#'+id;
+          a.style.color=on?'var(--text)':''; a.style.background=on?'var(--surface2)':'';
+        });
+      }
+    });
+  },{rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('section[id], header[id]').forEach(function(s){navObs.observe(s)});
+}
+
+// Animated bar reveal on scroll
+(function(){
+  if(!('IntersectionObserver' in window)) return;
+  var els=document.querySelectorAll('.fill, .stack>div, .cbar i');
+  els.forEach(function(el){ var w=el.style.width; if(w){ el.dataset.w=w; el.style.width='0'; }});
+  var io=new IntersectionObserver(function(ents,o){
+    ents.forEach(function(e){ if(e.isIntersecting){ e.target.style.width=e.target.dataset.w||''; o.unobserve(e.target); }});
+  },{threshold:.15});
+  els.forEach(function(el){ io.observe(el); });
+  setTimeout(function(){ els.forEach(function(el){ if(el.dataset.w) el.style.width=el.dataset.w; }); },1600);
+})();
+
+// Theme toggle (açık / koyu mod)
+(function(){
+  var root=document.documentElement, KEY='gfn-theme', btn=document.getElementById('themeToggle');
+  function isLight(){ return root.getAttribute('data-theme')==='light'; }
+  function label(){ if(btn) btn.innerHTML=isLight()?'🌙 Koyu mod':'☀️ Açık mod'; }
+  function set(t){ if(t==='light') root.setAttribute('data-theme','light'); else root.removeAttribute('data-theme'); try{localStorage.setItem(KEY,t);}catch(e){} label(); }
+  label();
+  if(btn) btn.addEventListener('click',function(){ set(isLight()?'dark':'light'); });
+})();
+</script>
+</body>
+</html>
