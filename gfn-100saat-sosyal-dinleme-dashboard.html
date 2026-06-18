@@ -299,13 +299,15 @@ table.cmp tr:hover td{background:var(--blue-soft)}
 .actcol:not(.cx):not(.urun) h4{color:var(--green-deep)} .actcol.cx h4{color:var(--blue)} .actcol.urun h4{color:#9a6a08}
 .actcol h4{font-size:.98rem;font-weight:800;display:flex;align-items:center;gap:9px;margin-bottom:5px;color:var(--heading)}
 .actcol .k{font-size:.78rem;color:var(--ink-3);margin-bottom:15px}
-.actcol p{font-size:.82rem;color:var(--ink-2);line-height:1.62;margin-bottom:11px}
-.actcol p:last-child{margin-bottom:0}
-.actcol p b{color:var(--text);font-weight:700}
 .actcol ul{list-style:none}
+.method-steps{list-style:none;margin-top:12px}
+.method-steps li{font-size:.84rem;color:var(--ink-2);line-height:1.55;padding:11px 0;border-bottom:1px solid var(--line)}
+.method-steps li:last-child{border-bottom:none;padding-bottom:0}
+.method-steps li b{color:var(--accent-deep);margin-right:3px}
 .actcol li{font-size:.82rem;padding:11px 0 11px 22px;position:relative;border-bottom:1px solid var(--line);color:var(--ink-2)}
 .actcol li:last-child{border-bottom:none}
 .actcol li::before{content:"\25B8";position:absolute;left:2px;color:var(--green-deep);font-weight:800}
+.actcol.urun li::before{color:#9a6a08} .actcol.cx li::before{color:var(--blue)}
 .actcol li b{color:var(--text);font-weight:700}
 
 /* demands */
@@ -577,30 +579,12 @@ table.cmp thead th .term{border-bottom-color:var(--accent)}
 
     <div class="card">
       <h3>Birleştirme yöntemi</h3>
-      <div class="ch-sub">Üç rapor üç adımda birleştirildi: <b>1)</b> ortak bulgular karşılaştırıldı, çelişkiler işaretlendi. <b>2)</b> her iddia gerçek bir kaynağa bağlandı; çalışmayan veya şüpheli linkler çıkarıldı. <b>3)</b> sayısal omurga elle doğrulanan R3 ve R2'ye, tema ve çeşitlilik R1'e dayandırıldı; üstüne YouTube, X, Ekşi ve Reddit elle eklendi.</div>
-      <div class="cd" style="grid-template-columns:1fr">
-        <div class="col agree">
-          <h4>✓ Doğrulananlar (yüksek güven)</h4>
-          <ul>
-            <li><b>Dünya geneli gerçekler:</b> 100 saat, ~%94 etkilenmiyor, ek süre $2,99/$5,99, 15 saat devir</li>
-            <li><b>Technopat alıntıları</b> (4080/300 TL, "kandırmak", Tüketici Hakem Heyeti) birebir doğrulandı</li>
-            <li><b>Şikayetvar</b> yetkisiz yenileme/iade şikayetleri gerçek ve güncel (Mayıs-Haziran 2026)</li>
-            <li><b>Boosteroid</b> Türkiye tartışmalarında öne çıkan alternatif (Ekşi + Technopat)</li>
-            <li><b>YouTube yorumları</b> Chrome ile okundu; en çok beğenilen yorum aslında GFN'i savunuyor (151 beğeni)</li>
-            <li><b>X / Twitter</b> giriş yapılınca tarandı: GAME+'ın "uygulamayacağız" sözü ve dönüşü tweet'lerle belgeli (311B görüntülenme)</li>
-            <li><b>Ekşi en yeni sayfalar</b> okundu: 15 Haz 2026'ya kadar taze yorumlar (fiyat şoku, Avrupa'ya kaçış)</li>
-          </ul>
-        </div>
-        <div class="col diverge">
-          <h4>⚠ Ayrışan / dikkatli kullanılan</h4>
-          <ul>
-            <li><b>Kesin yüzdeler:</b> R2'nin %87,5'i küçük örneklemden (16 yorum) gelen aykırı sonuç</li>
-            <li><b>R1'in AI üretimi yüzdeleri:</b> kaynakları (r/veYakinEvren dahil) gerçek olsa da virgüllü oranlar tema için kullanıldı, sayısal omurga için değil</li>
-            <li><b>GAME+ blog</b> adresi bağımsız teyit edilemedi; içerik /destek sayfasından doğrulandı</li>
-            <li><b>DataForSEO YouTube/içerik araçları</b> bu turda hâlâ kapalıydı; YouTube yine Chrome ile elle okundu</li>
-          </ul>
-        </div>
-      </div>
+      <div class="ch-sub">ChatGPT, Gemini, Perplexity ve Claude ile deep research ve manuel kontroller yapıldı. Çıktılar üç adımda birleştirildi:</div>
+      <ul class="method-steps">
+        <li><b>1)</b> Ortak bulgular karşılaştırıldı, çelişkiler işaretlendi.</li>
+        <li><b>2)</b> Her iddianın gerçekliğini doğrulamak için kaynaklar eklendi, linklerin aktif olup olmadığı kontrol edildi; aktifse içerikle karşılaştırıldı.</li>
+        <li><b>3)</b> Sayısal veriler ağırlıklı olarak manuel doğrulanan R3 ve R2'ye, tema ve çeşitlilik R1'e dayandırıldı; üstüne YouTube, X, Ekşi ve Reddit elle eklendi.</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -1090,26 +1074,32 @@ table.cmp thead th .term{border-bottom-color:var(--accent)}
   <div class="act">
     <div class="actcol">
       <h4>📣 İletişim ve algı</h4>
-      <p>Güven kaybını azaltmak için karar değişikliğinin nedeni açık ve tutarlı şekilde anlatılmalıdır. Daha önce "uygulanmayacak" denilen 100 saat kuralının neden devreye alındığı; sunucu kapasitesi, kaynak kullanımı ve yapay zeka odaklı altyapı rekabeti gibi gerekçelerle netleştirilmelidir.</p>
-      <p>Mevcut ücretli abonelerin, özellikle yıllık üyelik sahiplerinin haklarının 10 Haziran 2027'ye kadar korunduğu açık şekilde öne çıkarılmalıdır. Bu bilgi SMS, e-posta ve uygulama içi bildirimlerde aynı mesaj yapısıyla aktarılmalıdır.</p>
-      <p>"Kesintisiz devam" şartı daha sade bir dille anlatılmalıdır. Aboneliğin iptal edilmesi veya dondurulması durumunda mevcut hakkın kaybedileceği, basit bir görsel akışla açıklanmalıdır. Böylece kullanıcıların farkında olmadan hak kaybı yaşamasının önüne geçilebilir.</p>
-      <p>Kullanıcıların yaklaşık %94'ünün 100 saat sınırından etkilenmediği verisi iletişimde destekleyici unsur olarak kullanılabilir. Ancak bu veri tek başına yeterli değildir; çünkü tepkinin temelinde kullanım oranı değil, "sınırsız" olarak algılanan vaadin kaybedilmesi ve güven duygusunun zedelenmesi yer almaktadır.</p>
+      <ul>
+        <li>Güven kaybını azaltmak için karar değişikliğinin nedeni açık ve tutarlı şekilde anlatılmalıdır. Daha önce "uygulanmayacak" denilen 100 saat kuralının neden devreye alındığı; sunucu kapasitesi, kaynak kullanımı ve yapay zeka odaklı altyapı rekabeti gibi gerekçelerle netleştirilmelidir.</li>
+        <li>Mevcut ücretli abonelerin, özellikle yıllık üyelik sahiplerinin haklarının 10 Haziran 2027'ye kadar korunduğu açık şekilde öne çıkarılmalıdır. Bu bilgi SMS, e-posta ve uygulama içi bildirimlerde aynı mesaj yapısıyla aktarılmalıdır.</li>
+        <li>"Kesintisiz devam" şartı daha sade bir dille anlatılmalıdır. Aboneliğin iptal edilmesi veya dondurulması durumunda mevcut hakkın kaybedileceği, basit bir görsel akışla açıklanmalıdır. Böylece kullanıcıların farkında olmadan hak kaybı yaşamasının önüne geçilebilir.</li>
+        <li>Kullanıcıların yaklaşık %94'ünün 100 saat sınırından etkilenmediği verisi iletişimde destekleyici unsur olarak kullanılabilir. Ancak bu veri tek başına yeterli değildir; çünkü tepkinin temelinde kullanım oranı değil, "sınırsız" olarak algılanan vaadin kaybedilmesi ve güven duygusunun zedelenmesi yer almaktadır.</li>
+      </ul>
     </div>
     <div class="actcol urun">
       <h4>🛠 Ürün ve fiyat</h4>
-      <p>Kullanıcı tepkisini azaltmak için en ikna edici yaklaşım, süre sınırının karşılığında somut değer sunmaktır. 100 saat kuralının kabul görmesi, yalnızca iletişimle değil, ürün tarafında hissedilir iyileştirmelerle desteklenmelidir.</p>
-      <p>Türkiye sunucularında görünür bir altyapı güçlendirmesi yapılması, kullanıcı beklentileri açısından kritik öneme sahiptir. Bu talep, yorumlarda en sık öne çıkan başlıklardan biridir ve süre sınırının daha makul algılanmasına doğrudan katkı sağlayabilir.</p>
-      <p>Ek süre seçenekleri TL bazlı, şeffaf ve erişilebilir paketlerle sunulmalıdır. Özellikle 5 saatlik küçük "can suyu" paketleri, ek süre maliyetine yönelik olumsuz algıyı yumuşatabilir.</p>
-      <p>Süre devri konusunda daha esnek bir yapı değerlendirilebilir. Mevcut 15 saatlik devir hakkının 30 saate çıkarılması, kullanıcı tarafındaki "ödediğim süre boşa gidiyor" algısını azaltabilir.</p>
-      <p>Ayrıca kötüye kullanım ile genel kullanım sınırı birbirinden ayrı anlatılmalıdır. Aşırı kullanım veya sistemin kötüye kullanımı hedefli yaptırımlarla yönetilmeli; genel süre sınırı bu durumdan bağımsız, daha şeffaf bir çerçevede konumlandırılmalıdır.</p>
+      <ul>
+        <li>Kullanıcı tepkisini azaltmak için en ikna edici yaklaşım, süre sınırının karşılığında somut değer sunmaktır. 100 saat kuralının kabul görmesi, yalnızca iletişimle değil, ürün tarafında hissedilir iyileştirmelerle desteklenmelidir.</li>
+        <li>Türkiye sunucularında görünür bir altyapı güçlendirmesi yapılması, kullanıcı beklentileri açısından kritik öneme sahiptir. Bu talep, yorumlarda en sık öne çıkan başlıklardan biridir ve süre sınırının daha makul algılanmasına doğrudan katkı sağlayabilir.</li>
+        <li>Ek süre seçenekleri TL bazlı, şeffaf ve erişilebilir paketlerle sunulmalıdır. Özellikle 5 saatlik küçük "can suyu" paketleri, ek süre maliyetine yönelik olumsuz algıyı yumuşatabilir.</li>
+        <li>Süre devri konusunda daha esnek bir yapı değerlendirilebilir. Mevcut 15 saatlik devir hakkının 30 saate çıkarılması, kullanıcı tarafındaki "ödediğim süre boşa gidiyor" algısını azaltabilir.</li>
+        <li>Ayrıca kötüye kullanım ile genel kullanım sınırı birbirinden ayrı anlatılmalıdır. Aşırı kullanım veya sistemin kötüye kullanımı hedefli yaptırımlarla yönetilmeli; genel süre sınırı bu durumdan bağımsız, daha şeffaf bir çerçevede konumlandırılmalıdır.</li>
+      </ul>
     </div>
     <div class="actcol cx">
       <h4>💬 Müşteri deneyimi</h4>
-      <p>Mayıs-Haziran 2026 dönemindeki güncel şikayetlerin ana ekseni iptal, iade ve izinsiz otomatik yenileme başlıklarında yoğunlaşmaktadır. Özellikle 10 Haziran çevresinde öne çıkan "izinsiz yenileme" ve "3.354 TL çekim" şikayetleri, 100 saat kuralına yönelik tepkiyi büyüten temel sorunlardan biridir.</p>
-      <p>Bu nedenle iptal ve iade süreçlerindeki sürtünme hızlı şekilde giderilmelidir. İptal işlemi tek tıkla tamamlanabilir hale getirilmeli, iade talepleri ise daha hızlı ve görünür bir süreçle yönetilmelidir.</p>
-      <p>Otomatik yenileme tarafında açık onay mekanizması güçlendirilmelidir. Kullanıcı net şekilde "kabul ediyorum" demeden yenileme yapılmamalı; otomatik yenileme bilgisi şeffaf, anlaşılır ve kolay iptal edilebilir biçimde sunulmalıdır.</p>
-      <p>Ayrıca "Kalan Süre" göstergesi daha görünür hale getirilmelidir. "Oynama Süresi" ekranının Türkçe, anlaşılır ve kolay erişilebilir olması; kullanıcıların "süre bitince ne olacak?" belirsizliğini azaltabilir.</p>
-      <p>Boosteroid'e yönelme riski de yakından izlenmelidir. Rakibin "sınırsız kullanım", geniş kütüphane ve yaklaşık 8 dolar/ay fiyat algısına karşı; Türkiye'deki düşük gecikme avantajı, örneğin 8 ms / 45 ms farkı, ve mevcut abonelerin korunan hakları daha net şekilde vurgulanmalıdır.</p>
+      <ul>
+        <li>Mayıs-Haziran 2026 dönemindeki güncel şikayetlerin ana ekseni iptal, iade ve izinsiz otomatik yenileme başlıklarında yoğunlaşmaktadır. Özellikle 10 Haziran çevresinde öne çıkan "izinsiz yenileme" ve "3.354 TL çekim" şikayetleri, 100 saat kuralına yönelik tepkiyi büyüten temel sorunlardan biridir.</li>
+        <li>Bu nedenle iptal ve iade süreçlerindeki sürtünme hızlı şekilde giderilmelidir. İptal işlemi tek tıkla tamamlanabilir hale getirilmeli, iade talepleri ise daha hızlı ve görünür bir süreçle yönetilmelidir.</li>
+        <li>Otomatik yenileme tarafında açık onay mekanizması güçlendirilmelidir. Kullanıcı net şekilde "kabul ediyorum" demeden yenileme yapılmamalı; otomatik yenileme bilgisi şeffaf, anlaşılır ve kolay iptal edilebilir biçimde sunulmalıdır.</li>
+        <li>Ayrıca "Kalan Süre" göstergesi daha görünür hale getirilmelidir. "Oynama Süresi" ekranının Türkçe, anlaşılır ve kolay erişilebilir olması; kullanıcıların "süre bitince ne olacak?" belirsizliğini azaltabilir.</li>
+        <li>Boosteroid'e yönelme riski de yakından izlenmelidir. Rakibin "sınırsız kullanım", geniş kütüphane ve yaklaşık 8 dolar/ay fiyat algısına karşı; Türkiye'deki düşük gecikme avantajı, örneğin 8 ms / 45 ms farkı, ve mevcut abonelerin korunan hakları daha net şekilde vurgulanmalıdır.</li>
+      </ul>
     </div>
   </div>
 </section>
