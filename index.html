@@ -50,6 +50,7 @@ html[data-theme="dark"] .v-ok,html[data-theme="dark"] .d-pos,html[data-theme="da
 html[data-theme="dark"] .v-part,html[data-theme="dark"] .badge-mid,html[data-theme="dark"] .d-neu,html[data-theme="dark"] .f-neu,html[data-theme="dark"] .fr-m,html[data-theme="dark"] .costcard .ult,html[data-theme="dark"] .disc h4{color:#e7bd63}
 html[data-theme="dark"] .v-no,html[data-theme="dark"] .badge-risk,html[data-theme="dark"] .f-neg,html[data-theme="dark"] .fr-h,html[data-theme="dark"] .xgrouplabel.r{color:#f0948c}
 html[data-theme="dark"] .pill b,html[data-theme="dark"] .qmini{color:var(--ink)}
+html[data-theme="dark"] .actcol:not(.cx):not(.urun) h4{color:#8fc44d} html[data-theme="dark"] .actcol.cx h4{color:#6aa1f5} html[data-theme="dark"] .actcol.urun h4{color:#e7bd63}
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:clamp(15px,0.32vw + 13.8px,16.5px)}
@@ -217,7 +218,7 @@ table.cmp tr:hover td{background:var(--blue-soft)}
 .trow .tmeta{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
 .pill{font-size:.64rem;font-weight:700;padding:2.5px 8px;border-radius:5px;background:var(--surface-3);color:var(--ink-2);border:1px solid var(--line)}
 .pill b{color:var(--text)}
-.qmini{font-size:.8rem;color:var(--ink-2);font-style:italic;margin-top:10px;padding:9px 12px;background:var(--surface-2);border:1px solid var(--line-soft);border-radius:8px}
+.qmini{font-size:.8rem;color:var(--ink-2);font-style:italic;margin-top:10px;padding:9px 12px;background:var(--surface-2);border:1px solid var(--border2);border-radius:8px}
 .qmini a{font-style:normal;font-size:.72rem;font-weight:700}
 
 /* quote wall */
@@ -226,9 +227,9 @@ table.cmp tr:hover td{background:var(--blue-soft)}
 .qbtn:hover{color:var(--heading);border-color:var(--border2)}
 .qbtn.active{background:var(--brand);color:#fff;border-color:transparent}
 .qwall{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
-.quote{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--border2);border-left:3px solid var(--ink-3);border-radius:12px;padding:18px;box-shadow:var(--shadow);transition:.18s}
+.quote{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:18px;box-shadow:var(--shadow);transition:.18s}
 .quote:hover{transform:translateY(-2px);box-shadow:var(--shadow-h)}
-.quote.q-neg{border-left-color:var(--neg)} .quote.q-neu{border-left-color:var(--neu)} .quote.q-pos{border-left-color:var(--pos)}
+/* tepki tonu .s-flag rozetinde gosteriliyor; parantez kenar kaldirildi */
 .quote .qt{font-size:.86rem;line-height:1.55;color:var(--text)}
 .quote .qmeta{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:14px;font-size:.74rem;color:var(--ink-3)}
 .quote .qmeta .who{font-weight:700;color:var(--ink-2)}
@@ -294,8 +295,8 @@ table.cmp tr:hover td{background:var(--blue-soft)}
 
 /* actions */
 .act{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.actcol{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;border-top:3px solid var(--green);box-shadow:var(--shadow)}
-.actcol.cx{border-top-color:var(--blue)} .actcol.urun{border-top-color:var(--neu)}
+.actcol{background:var(--card);border:1px solid var(--border2);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow)}
+.actcol:not(.cx):not(.urun) h4{color:var(--green-deep)} .actcol.cx h4{color:var(--blue)} .actcol.urun h4{color:#9a6a08}
 .actcol h4{font-size:.98rem;font-weight:800;display:flex;align-items:center;gap:9px;margin-bottom:5px;color:var(--heading)}
 .actcol .k{font-size:.78rem;color:var(--ink-3);margin-bottom:15px}
 .actcol ul{list-style:none}
@@ -873,9 +874,9 @@ table.cmp thead th .term{border-bottom-color:var(--accent)}
     <div class="card">
       <h3>YouTube'da ölçülen yorumlar</h3>
       <div class="ch-sub">DataForSEO ile en üst sıradaki TR inceleme videosu (Garbarius) ve haber programlarından çekildi.</div>
-      <div class="qmini" style="border-left-color:var(--pos)">"Sonunda sponsorsuz bir video... Arada bir oynayan ve ortalama bir bilgisayara 25-30 bin TL bayılmak istemeyen için işlevsel. Ama rekabetçi oyunları aklınızdan geçirmeyin." <b>(231 beğeni)</b> <a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">→ video</a></div>
-      <div class="qmini" style="border-left-color:var(--pos)">"Ben memnunum, yükleme derdi yok, tak diye giriyor, akıcı bir oyun keyfi veriyor." <b>(Mayıs 2026, taze)</b> <a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">→ video</a></div>
-      <div class="qmini" style="border-left-color:var(--neg)">"4 yıl kullandım, bundan beter hizmet yok. 5070Ti sistem aldım, her yerden engelledim." <b>(95 beğeni · kaçış)</b> <a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">→ video</a></div>
+      <div class="qmini">"Sonunda sponsorsuz bir video... Arada bir oynayan ve ortalama bir bilgisayara 25-30 bin TL bayılmak istemeyen için işlevsel. Ama rekabetçi oyunları aklınızdan geçirmeyin." <b>(231 beğeni)</b> <a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">→ video</a></div>
+      <div class="qmini">"Ben memnunum, yükleme derdi yok, tak diye giriyor, akıcı bir oyun keyfi veriyor." <b>(Mayıs 2026, taze)</b> <a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">→ video</a></div>
+      <div class="qmini">"4 yıl kullandım, bundan beter hizmet yok. 5070Ti sistem aldım, her yerden engelledim." <b>(95 beğeni · kaçış)</b> <a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">→ video</a></div>
       <div class="src"><span class="lbl">Videolar</span>
         <a href="https://www.youtube.com/watch?v=cp86HWUCyPY" target="_blank" rel="noopener">Garbarius dürüst inceleme (55B izlenme, 1. sıra)</a>
         <a href="https://www.youtube.com/watch?v=A744UCeRtWY" target="_blank" rel="noopener">Can Sungur (50B izlenme)</a>
